@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+catatan-pribadi.txt
+cache/
+
+database_update.sql
+
+# Runtime uploads may contain personal or operational data.
+uploads/**
+!uploads/.gitkeep
+!uploads/kegiatan/
+!uploads/kegiatan/.gitkeep
+!uploads/laporan/
+!uploads/laporan/.gitkeep
+!uploads/pengurus/
+!uploads/pengurus/.gitkeep

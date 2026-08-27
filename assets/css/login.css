@@ -1,0 +1,243 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background: linear-gradient(135deg, #203a43, #2c5364);
+    overflow:hidden;
+    position:relative;
+}
+
+/* Overlay background */
+.background-overlay{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.35);
+    z-index:0;
+}
+
+/* Container */
+.login-container{
+    width:85%;
+    max-width:1200px;
+    height:80vh;
+    margin:auto;
+    margin-top:5vh;
+    display:flex;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    position:relative;
+    z-index:10;
+}
+
+/* Left */
+.login-left{
+    flex:1;
+    background: rgba(255,255,255,0.08);
+    color:white;
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.login-left h1{
+    font-size:48px;
+    margin-bottom:20px;
+}
+
+.login-left p{
+    font-size:18px;
+    line-height:1.8;
+    margin-bottom:40px;
+}
+
+/* Slider */
+.activity-slider{
+    font-size:24px;
+    font-weight:bold;
+    color:#1abc9c;
+    min-height:50px;
+}
+
+/* Right */
+.login-right{
+    width:420px;
+    background:white;
+    padding:60px 40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.login-right h2{
+    margin:0 0 8px;
+    color:#203a43;
+    font-size:30px;
+}
+
+.login-heading-icon{
+    width:52px;
+    height:52px;
+    display:grid;
+    place-items:center;
+    margin-bottom:18px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#1abc9c,#159174);
+    color:white;
+    font-size:22px;
+    box-shadow:0 10px 24px rgba(26,188,156,.24);
+}
+
+.login-subtitle{
+    margin:0 0 26px;
+    color:#64748b;
+    line-height:1.6;
+}
+
+.login-right form{
+    width:100%;
+}
+
+.input-group{
+    position:relative;
+    margin-bottom:18px;
+}
+
+.input-group > i{
+    position:absolute;
+    left:16px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:2;
+    color:#78909c;
+    font-size:15px;
+    pointer-events:none;
+    transition:color .2s ease;
+}
+
+.login-right .input-group input{
+    width:100%;
+    box-sizing:border-box;
+    padding:15px 16px 15px 46px;
+    margin:0;
+    border:1px solid #dbe4e8;
+    border-radius:10px;
+    font-size:16px;
+    color:#203a43;
+    background:#f8fafb;
+    outline:none;
+    transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.input-group:focus-within > i{
+    color:#159174;
+}
+
+.login-right .input-group input:focus{
+    border-color:#1abc9c;
+    background:white;
+    box-shadow:0 0 0 4px rgba(26,188,156,.12);
+}
+
+.login-right button{
+    width:100%;
+    padding:15px;
+    background:#1abc9c;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-weight:700;
+}
+
+.login-right button:hover{
+    background:#16a085;
+}
+
+/* Dekorasi ringan di belakang card login */
+.floating-icons{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    overflow:hidden;
+    pointer-events:none;
+}
+
+.floating-icon{
+    --float-x: 12px;
+    position:absolute;
+    bottom:-70px;
+    left:var(--left);
+    color:rgba(255,255,255,.5);
+    font-size:var(--size);
+    filter:drop-shadow(0 4px 9px rgba(0,0,0,.16));
+    opacity:0;
+    will-change:transform,opacity;
+    animation:floatUp var(--duration) ease-in-out var(--delay) infinite;
+}
+
+.floating-icon:nth-child(even){ --float-x:-16px; }
+.icon-mosque{ --left:7%; --size:27px; --duration:15s; --delay:-4s; }
+.icon-moon{ --left:22%; --size:22px; --duration:18s; --delay:-12s; color:rgba(253,224,71,.55); }
+.icon-star{ --left:39%; --size:17px; --duration:14s; --delay:-8s; color:rgba(253,224,71,.62); }
+.icon-book{ --left:58%; --size:24px; --duration:17s; --delay:-2s; }
+.icon-sparkle{ --left:76%; --size:21px; --duration:13s; --delay:-10s; }
+.icon-pray{ --left:91%; --size:25px; --duration:19s; --delay:-6s; }
+
+@keyframes floatUp{
+    0%{ transform:translate3d(0,0,0) rotate(-5deg); opacity:0; }
+    12%{ opacity:.72; }
+    50%{ transform:translate3d(var(--float-x),-52vh,0) rotate(5deg); opacity:.55; }
+    88%{ opacity:.28; }
+    100%{ transform:translate3d(calc(var(--float-x) * -1),-115vh,0) rotate(-4deg); opacity:0; }
+}
+/* Pesan validasi login */
+.login-alert {
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    background: #fef2f2;
+    color: #991b1b;
+    font-size: 14px;
+}
+
+@media(max-width:900px){
+    body{overflow:auto;padding:24px 0;}
+    .login-container{width:min(92%,680px);height:auto;min-height:0;margin:0 auto;flex-direction:column;}
+    .login-left{padding:38px 34px;}
+    .login-left h1{font-size:36px;}
+    .login-left p{margin-bottom:22px;}
+    .activity-slider{font-size:19px;}
+    .login-right{width:auto;padding:42px 34px;}
+}
+
+@media(max-width:520px){
+    body{padding:14px 0;}
+    .login-container{width:94%;border-radius:18px;}
+    .login-left{padding:30px 24px;}
+    .login-left h1{font-size:29px;}
+    .login-left p{font-size:15px;line-height:1.6;}
+    .activity-slider{font-size:16px;min-height:36px;}
+    .login-right{padding:34px 24px;}
+    .login-right h2{font-size:26px;}
+    .floating-icon{font-size:19px;}
+    .icon-star,.icon-book{display:none;}
+}
+
+@media(prefers-reduced-motion:reduce){
+    .floating-icon{animation:none;display:none;}
+}

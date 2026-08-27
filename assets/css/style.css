@@ -1,0 +1,1281 @@
+/* =========================
+   NAVBAR USER
+========================= */
+.navbar-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-logo img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.nav-logo h2 {
+    font-size: 20px;
+    color: #203a43;
+}
+
+.nav-menu ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #222;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-menu a:hover {
+    color: #1abc9c;
+}
+
+.nav-social {
+    display: flex;
+    gap: 12px;
+}
+
+.nav-social a {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1abc9c;
+    color: white;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.nav-social a:hover {
+    background: #16a085;
+}
+
+/* =========================
+   ORGANISASI USER 
+========================= */
+.organisasi-wrapper {
+    padding: 50px 40px;
+    background: #f8fafc;
+}
+
+.organisasi-title {
+    font-size: 34px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+.organisasi-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.organisasi-content-modern {
+    padding: 22px;
+    text-align: center;
+}
+
+.organisasi-content-modern h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #203a43;
+    margin-bottom: 8px;
+}
+
+.organisasi-jabatan {
+    color: #1abc9c;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.organisasi-deskripsi {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* =========================
+   ORGANISASI FOTO UPGRADE
+========================= */
+
+.organisasi-image-modern {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+/* FRAME + SHADOW */
+.organisasi-card-modern {
+    background: white;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+/* FOTO */
+.organisasi-image-modern img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s ease;
+}
+
+/* OVERLAY GRADIENT (BIAR PREMIUM) */
+.organisasi-image-modern::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+/* HOVER EFFECT */
+.organisasi-card-modern:hover img {
+    transform: scale(1.08);
+}
+
+.organisasi-card-modern:hover .organisasi-image-modern::after {
+    opacity: 1;
+}
+
+/* =========================
+   GOLD FRAME TANPA ERROR
+========================= */
+
+.organisasi-card-modern {
+    position: relative;
+    border-radius: 22px;
+    padding: 3px; /* ketebalan bingkai */
+    
+    background: linear-gradient(
+        135deg,
+        #d4af37,
+        #f6e27a,
+        #c5a100,
+        #fff2a8,
+        #d4af37
+    );
+
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+/* INNER CARD (ISI PUTIH) */
+.organisasi-card-modern .inner-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* FOTO */
+.organisasi-image-modern img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* HOVER */
+.organisasi-card-modern:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+}
+
+/* EFEK KILAU */
+.organisasi-card-modern::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -50%;
+    width: 40%;
+    height: 300%;
+    background: rgba(255,255,255,0.25);
+    transform: rotate(25deg);
+    transition: 0.7s;
+}
+
+.organisasi-card-modern:hover::after {
+    top: 100%;
+    left: 120%;
+}
+
+/* =========================
+   HERO MODERN
+========================= */
+
+/* HERO */
+.hero{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* GAMBAR */
+.hero-img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    z-index: 1;
+
+    transition: 0.5s ease;
+}
+
+/* OVERLAY GELAP */
+.hero-overlay{
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0,0,0,0.35);
+
+    z-index: 2;
+}
+
+/* BLUR SAAT SCROLL */
+.hero.blur .hero-img{
+    filter: blur(5px);
+    transform: scale(1.05);
+}
+
+/* CONTENT */
+.hero-content{
+    position: relative;
+    z-index: 5;
+
+    text-align: center;
+    color: white;
+}
+
+.hero-content h1{
+    font-size: 90px;
+    font-weight: 800;
+    line-height: 1.1;
+
+    text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.hero-content p{
+    margin-top: 20px;
+
+    font-size: 30px;
+    font-style: italic;
+
+    text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+
+/* =========================
+   WRAPPER PUTIH
+========================= */
+
+.glass-wrapper{
+    position: relative;
+    margin-top: -100px;
+    z-index: 10;
+}
+
+/* =========================
+   INFO BOX
+========================= */
+
+.info-box{
+    width: 88%;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+
+    padding: 45px;
+    border-radius: 30px;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+/* CARD */
+.box{
+    text-align: center;
+    padding: 20px;
+    transition: 0.3s ease;
+}
+
+.box:hover{
+    transform: translateY(-8px);
+}
+
+/* ICON */
+.box-icon{
+    width: 100px;
+    height: 100px;
+
+    margin: auto;
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+    border: 2px solid #d1d5db;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 42px;
+
+    background: white;
+}
+
+/* TITLE */
+.box h2{
+    margin-bottom: 15px;
+    font-size: 30px;
+    color: #0f172a;
+}
+
+/* TEXT */
+.box p{
+    font-size: 17px;
+    line-height: 1.8;
+    color: #64748b;
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about{
+    width: 80%;
+    margin: 80px auto;
+    text-align: center;
+}
+
+.about h1{
+    font-size: 50px;
+    margin-bottom: 25px;
+    color: #0f172a;
+}
+
+.about p{
+    font-size: 19px;
+    line-height: 2;
+    color: #64748b;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 900px){
+
+    .hero-content h1{
+        font-size: 55px;
+    }
+
+    .hero-content p{
+        font-size: 20px;
+    }
+
+    .info-box{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* =========================
+   ARTIKEL USER MEMANJANG
+========================= */
+
+.artikel-wrapper{
+    width: 85%;
+    margin: 40px auto;
+}
+
+.artikel-title{
+    font-size: 42px;
+    color: #203a43;
+    margin-bottom: 35px;
+    font-weight: 700;
+}
+
+.artikel-horizontal{
+    width: 100%;
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin-bottom: 35px;
+}
+
+.artikel-horizontal{
+    transition: 0.3s ease;
+}
+
+.artikel-horizontal:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+}
+
+.artikel-horizontal img{
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 18px;
+}
+
+.artikel-content{
+    padding: 5px;
+}
+
+.artikel-link{
+    display: block;
+    font-size: 32px;
+    line-height: 1.4;
+    text-decoration: none;
+    color: #38bdf8;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.artikel-link:hover{
+    color: #1abc9c;
+}
+
+/* =========================
+   DETAIL ARTIKEL MODERN
+========================= */
+
+.detail-wrapper{
+    width: 85%;
+    margin: 50px auto;
+}
+
+.detail-card{
+    background: white;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.detail-image{
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    display: block;
+}
+
+.detail-content{
+    padding: 35px;
+}
+
+.detail-kategori{
+    display: inline-block;
+    background: #e0fdf4;
+    color: #1abc9c;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.detail-tanggal{
+    color: #64748b;
+    font-size: 14px;
+    margin: 15px 0;
+}
+
+.detail-judul{
+    font-size: 42px;
+    line-height: 1.3;
+    color: #203a43;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.detail-deskripsi{
+    font-size: 18px;
+    line-height: 1.9;
+    color: #334155;
+    text-align: justify;
+}
+
+.btn-kembali-artikel{
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #203a43, #2c5364);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-kembali-artikel:hover{
+    background: #1abc9c;
+}
+
+/* =========================
+   HALAMAN PROFIL
+========================= */
+.profil-page{
+    background: #f5f7fb;
+    padding: 40px 0;
+}
+
+.profil-container{
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+    background: #eef3f7;
+    padding: 40px;
+    border-radius: 10px;
+    line-height: 1.8;
+}
+
+.profil-container h1{
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+.profil-container h2{
+    margin-top: 35px;
+    margin-bottom: 15px;
+    font-size: 30px;
+    color: #222;
+}
+
+.profil-container p{
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.profil-container ol{
+    margin-left: 30px;
+}
+
+.profil-container li{
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+.navbar h2{
+    color:#203a43;
+}
+
+.navbar nav a{
+    margin:0 12px;
+    text-decoration:none;
+    color:#333;
+    font-weight:500;
+    transition:0.3s;
+}
+
+/* ACTIVE MENU */
+.navbar nav a.active{
+    color:#2563eb;
+    font-weight:600;
+    border-bottom:2px solid #2563eb;
+}
+
+/* HOVER */
+.navbar nav a:hover{
+    color:#2563eb;
+}
+
+/* ACTIVE NAVBAR USER */
+.nav-menu a.active{
+    color:#2563eb;
+    font-weight:700;
+    position:relative;
+}
+
+/* GARIS BAWAH MODERN */
+.nav-menu a.active::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:100%;
+    height:2px;
+    background:#2563eb;
+    border-radius:10px;
+}
+
+/* HOVER */
+.nav-menu a:hover{
+    color:#2563eb;
+}
+
+/* =========================
+   CONTAINER UTAMA
+========================= */
+.container{
+    width:100%;
+    background:#f3f4f6;
+    padding:60px 20px;
+    min-height:100vh;
+}
+
+
+/* =========================
+   BOX CONTENT (PENTING)
+========================= */
+.content-box{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    padding:50px;
+    border-radius:16px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+
+/* =========================
+   TEXT STYLE
+========================= */
+.content-box h1{
+    font-size:34px;
+    margin-bottom:20px;
+    color:#111827;
+}
+
+.content-box h2{
+    margin-top:35px;
+    margin-bottom:12px;
+    font-size:24px;
+    color:#1f2937;
+}
+
+.content-box p{
+    line-height:1.9;
+    color:#374151;
+    text-align:justify;
+    font-size:16px;
+}
+
+.kontak{
+    margin-top:20px;
+    font-weight:600;
+}
+
+
+/* =========================
+   BUTTON HIJAU (WA)
+========================= */
+.btn-hubungi{
+    display:inline-block;
+    margin-top:20px;
+    background:#22c55e;
+    color:white;
+    padding:14px 24px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.btn-hubungi:hover{
+    background:#16a34a;
+    transform:scale(1.03);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+.footer-info{
+    display:flex;
+    justify-content:space-between;
+    margin-top:50px;
+    padding-top:20px;
+    border-top:1px solid #ddd;
+}
+
+/* =========================
+   KONTAK PAGE
+========================= */
+.kontak-wrapper{
+    background:#f3f4f6;
+    padding:60px 20px;
+    min-height:100vh;
+}
+
+.kontak-box{
+    max-width:700px;
+    margin:auto;
+    background:#e5e7eb;
+    padding:50px;
+    border-radius:10px;
+    text-align:center;
+}
+
+/* TITLE */
+.kontak-box h1{
+    font-size:32px;
+    margin-bottom:15px;
+}
+
+/* SUBTITLE */
+.subtitle{
+    font-size:16px;
+    margin-bottom:30px;
+    color:#333;
+}
+
+/* =========================
+   BUTTON UMUM
+========================= */
+.kontak-box a{
+    display:block;
+    width:80%;
+    margin:12px auto;
+    padding:14px;
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:600;
+    color:white;
+    transition:0.3s;
+}
+
+/* =========================
+   WARNA BUTTON
+========================= */
+
+/* WA HIJAU */
+.btn-wa{
+    background:linear-gradient(45deg,#16a34a,#22c55e);
+}
+
+.btn-wa:hover{
+    transform:scale(1.03);
+}
+
+/* EMAIL */
+.btn-email{
+    background:#38bdf8;
+}
+
+/* TWITTER */
+.btn-twitter{
+    background:#0ea5e9;
+}
+
+/* FACEBOOK */
+.btn-facebook{
+    background:#2563eb;
+}
+
+/* INSTAGRAM */
+.btn-instagram{
+    background:linear-gradient(45deg,#f97316,#ec4899,#8b5cf6);
+}
+
+/* HOVER SEMUA */
+.btn-email:hover,
+.btn-twitter:hover,
+.btn-facebook:hover,
+.btn-instagram:hover{
+    transform:scale(1.03);
+}
+
+/* =========================
+   FIX KHUSUS PROFIL MASJID
+========================= */
+
+   .manajemen-page .content-box.full-width{
+     width: 95%;
+}
+
+@media (min-width: 1500px){
+    .manajemen-page .content-box.full-width{
+        max-width: 1300px;
+    }
+}
+
+body{
+    background: #f4f7fb;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* CONTAINER */
+.profil-wrapper{
+    width: 92%;
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+/* HERO */
+.profil-hero{
+    background: linear-gradient(135deg,#0f172a,#1e3a8a);
+    padding: 60px;
+    border-radius: 30px;
+    color: white;
+    margin-bottom: 35px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+}
+
+.profil-hero h1{
+    font-size: 46px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.profil-hero p{
+    font-size: 18px;
+    line-height: 1.8;
+    opacity: 0.95;
+}
+
+/* SECTION CARD */
+.profil-card{
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+    transition: 0.3s;
+}
+
+.profil-card:hover{
+    transform: translateY(-4px);
+}
+
+/* TITLE */
+.profil-title{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.profil-title i{
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg,#2563eb,#1d4ed8);
+    color: white;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.profil-title h2{
+    font-size: 32px;
+    color: #0f172a;
+}
+
+/* TEXT */
+.profil-content{
+    font-size: 18px;
+    line-height: 2;
+    color: #475569;
+    text-align: justify;
+}
+
+/* MISI */
+.misi-list{
+    margin-top: 10px;
+}
+
+.misi-list li{
+    margin-bottom: 14px;
+    line-height: 1.9;
+    color: #475569;
+    font-size: 17px;
+}
+
+/* ALAMAT */
+.alamat-box{
+    background: #eff6ff;
+    border-left: 5px solid #2563eb;
+    padding: 25px;
+    border-radius: 18px;
+    margin-top: 15px;
+    line-height: 1.9;
+    color: #334155;
+    font-size: 17px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+
+    .profil-hero{
+        padding: 35px;
+    }
+
+    .profil-hero h1{
+        font-size: 34px;
+    }
+
+    .profil-card{
+        padding: 28px;
+    }
+
+    .profil-title h2{
+        font-size: 25px;
+    }
+
+    .profil-content{
+        font-size: 16px;
+    }
+}
+
+/* =========================
+   FIX KHUSUS HALAMAN MANAJEMEN
+========================= */
+
+body{
+    background: #f4f7fb;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* WRAPPER */
+.manajemen-wrapper{
+    width: 92%;
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+/* HERO */
+.manajemen-hero{
+    background: linear-gradient(135deg,#0f172a,#1e3a8a);
+    color: white;
+    padding: 60px;
+    border-radius: 30px;
+    margin-bottom: 35px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+}
+
+.manajemen-hero h1{
+    font-size: 46px;
+    margin-bottom: 18px;
+    font-weight: 700;
+}
+
+.manajemen-hero p{
+    font-size: 18px;
+    line-height: 1.9;
+    opacity: 0.95;
+}
+
+/* CARD */
+.manajemen-card{
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+    transition: 0.3s;
+}
+
+.manajemen-card:hover{
+    transform: translateY(-4px);
+}
+
+/* TITLE */
+.manajemen-title{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.manajemen-title i{
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    background: linear-gradient(135deg,#2563eb,#1d4ed8);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+}
+
+.manajemen-title h2{
+    font-size: 32px;
+    color: #0f172a;
+}
+
+/* CONTENT */
+.manajemen-content{
+    font-size: 18px;
+    line-height: 2;
+    color: #475569;
+    text-align: justify;
+}
+
+/* KONTAK */
+.kontak-box{
+    background: #eff6ff;
+    border-left: 5px solid #2563eb;
+    padding: 30px;
+    border-radius: 18px;
+    margin-top: 15px;
+}
+
+.kontak-box p{
+    font-size: 18px;
+    color: #334155;
+    margin-bottom: 20px;
+}
+
+/* BUTTON */
+.btn-wa{
+    display: inline-block;
+    padding: 14px 28px;
+    background: #22c55e;
+    color: white;
+    text-decoration: none;
+    border-radius: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-wa:hover{
+    background: #16a34a;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+
+    .manajemen-hero{
+        padding: 35px;
+    }
+
+    .manajemen-hero h1{
+        font-size: 34px;
+    }
+
+    .manajemen-card{
+        padding: 28px;
+    }
+
+    .manajemen-title h2{
+        font-size: 25px;
+    }
+
+    .manajemen-content{
+        font-size: 16px;
+    }
+
+}
+/* Contact form and shared public states */
+.message-form-card { margin-top: 28px; text-align: left; }
+.contact-form { display: grid; gap: 10px; }
+.contact-form label { font-weight: 600; color: #1f2937; }
+.contact-form label span { color: #dc2626; }
+.contact-form input, .contact-form textarea { width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 9px; font: inherit; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-row > div { display: grid; gap: 10px; }
+.btn-submit-message { border: 0; border-radius: 9px; padding: 13px 18px; background: #15803d; color: #fff; font-weight: 600; cursor: pointer; }
+.form-alert { margin-bottom: 16px; padding: 12px 14px; border-radius: 9px; }
+.form-alert.success { background: #dcfce7; color: #166534; }.form-alert.error { background: #fee2e2; color: #991b1b; }
+.empty-state { padding: 24px; text-align: center; color: #64748b; }
+.nav-logo img { width: 58px; height: 58px; object-fit: contain; }
+@media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } .kontak-wrapper { padding-left: 16px; padding-right: 16px; } }
+
+/* Global public responsive layout */
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: hidden; }
+body { margin: 0; min-width: 320px; overflow-x: hidden; }
+img { max-width: 100%; }
+.nav-toggle { display: none; }
+.nav-panel { display: flex; align-items: center; gap: 28px; }
+footer { padding: 22px 16px; background: #0f172a; color: #e2e8f0; text-align: center; }
+footer p { margin: 0; }
+
+.artikel-wrapper,
+.detail-wrapper,
+.profil-wrapper,
+.manajemen-wrapper,
+.organisasi-wrapper,
+.kontak-wrapper { max-width: 100%; }
+.artikel-horizontal,
+.detail-card,
+.profil-card,
+.manajemen-card,
+.organisasi-card-modern,
+.kontak-box { min-width: 0; }
+.detail-deskripsi,
+.profil-content,
+.manajemen-content,
+.organisasi-deskripsi { overflow-wrap: anywhere; }
+
+@media (max-width: 1024px) {
+    .navbar-user { padding: 12px 22px; }
+    .nav-menu ul { gap: 16px; }
+    .nav-panel { gap: 18px; }
+    .nav-social { gap: 8px; }
+    .nav-social a { width: 34px; height: 34px; }
+    .hero { height: min(78vh, 720px); min-height: 520px; }
+    .hero-content h1 { font-size: clamp(52px, 8vw, 76px); }
+    .info-box { width: 92%; padding: 34px; gap: 20px; }
+    .box h2 { font-size: 25px; }
+    .artikel-wrapper, .detail-wrapper { width: 92%; }
+}
+
+@media (max-width: 900px) {
+    .navbar-user { min-height: 72px; padding: 9px 18px; }
+    .nav-logo { min-width: 0; }
+    .nav-logo img { width: 48px; height: 48px; }
+    .nav-logo h2 { font-size: 18px; white-space: nowrap; }
+    .nav-toggle {
+        display: grid;
+        place-items: center;
+        flex: 0 0 44px;
+        width: 44px;
+        height: 44px;
+        margin-left: auto;
+        border: 0;
+        border-radius: 10px;
+        background: #0f766e;
+        color: #fff;
+        font-size: 19px;
+        cursor: pointer;
+    }
+    .nav-panel {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 14px 26px rgba(15, 23, 42, .14);
+        opacity: 0;
+        visibility: hidden;
+        transition: max-height .25s ease, opacity .2s ease, visibility .2s ease;
+    }
+    .nav-panel.show { max-height: calc(100vh - 72px); overflow-y: auto; opacity: 1; visibility: visible; }
+    .nav-menu ul { display: grid; gap: 0; margin: 0; padding: 10px 16px; }
+    .nav-menu li { width: 100%; }
+    .nav-menu a { display: block; width: 100%; padding: 13px 12px; border-radius: 9px; }
+    .nav-menu a.active { background: #eff6ff; }
+    .nav-menu a.active::after { display: none; }
+    .nav-social { justify-content: center; padding: 10px 16px 18px; }
+    .hero { height: 62vh; min-height: 430px; }
+    .glass-wrapper { margin-top: -54px; }
+    .info-box { padding: 26px; border-radius: 22px; }
+    .about { width: 90%; margin: 54px auto; }
+    .about h1 { font-size: 38px; }
+    .organisasi-wrapper { padding: 38px 22px; }
+    .organisasi-grid-modern { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+}
+
+@media (max-width: 600px) {
+    .navbar-user { padding-left: 12px; padding-right: 12px; }
+    .nav-logo { gap: 8px; }
+    .nav-logo img { width: 42px; height: 42px; }
+    .nav-logo h2 { max-width: 210px; overflow: hidden; font-size: 16px; text-overflow: ellipsis; }
+    .hero { height: 54vh; min-height: 360px; }
+    .hero-content { padding: 0 16px; }
+    .hero-content h1 { margin: 0; font-size: clamp(39px, 13vw, 54px); }
+    .hero-content p { margin-top: 12px; font-size: 16px; }
+    .glass-wrapper { margin-top: -32px; }
+    .info-box { width: calc(100% - 24px); grid-template-columns: 1fr; gap: 8px; padding: 18px; border-radius: 18px; }
+    .box { padding: 16px 10px; }
+    .box-icon { width: 72px; height: 72px; margin-bottom: 14px; font-size: 30px; }
+    .box h2 { font-size: 22px; }
+    .box p { font-size: 15px; line-height: 1.65; }
+    .about { width: calc(100% - 28px); margin: 42px auto; }
+    .about h1 { font-size: 30px; }
+    .about p { font-size: 16px; line-height: 1.75; }
+    .artikel-wrapper, .detail-wrapper, .profil-wrapper, .manajemen-wrapper { width: calc(100% - 24px); margin: 28px auto; }
+    .artikel-title, .organisasi-title { font-size: 28px; margin-bottom: 24px; }
+    .artikel-horizontal { padding: 12px; margin-bottom: 20px; border-radius: 14px; }
+    .artikel-horizontal img { height: 220px; margin-bottom: 12px; }
+    .artikel-link { font-size: 21px; }
+    .detail-image { height: 230px; }
+    .detail-content { padding: 18px; }
+    .detail-judul { font-size: 27px; overflow-wrap: anywhere; }
+    .detail-deskripsi { font-size: 16px; line-height: 1.75; text-align: left; }
+    .btn-kembali-artikel { width: 100%; text-align: center; }
+    .organisasi-wrapper { padding: 30px 12px; }
+    .organisasi-grid-modern { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .organisasi-image-modern { height: min(105vw, 390px); }
+    .organisasi-content-modern { padding: 18px; }
+    .profil-hero, .manajemen-hero { padding: 28px 20px; border-radius: 20px; margin-bottom: 22px; }
+    .profil-hero h1, .manajemen-hero h1 { font-size: 30px; }
+    .profil-hero p, .manajemen-hero p { font-size: 16px; line-height: 1.65; }
+    .profil-card, .manajemen-card { padding: 22px 18px; border-radius: 18px; margin-bottom: 18px; }
+    .profil-title, .manajemen-title { align-items: flex-start; gap: 12px; margin-bottom: 18px; }
+    .profil-title i, .manajemen-title i { flex: 0 0 46px; width: 46px; height: 46px; border-radius: 13px; font-size: 19px; }
+    .profil-title h2, .manajemen-title h2 { font-size: 22px; overflow-wrap: anywhere; }
+    .profil-content, .manajemen-content { font-size: 16px; line-height: 1.75; text-align: left; }
+    .kontak-wrapper { padding: 28px 12px; }
+    .kontak-box { width: 100%; padding: 24px 16px; }
+    .kontak-box a { width: 100%; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-form input, .contact-form textarea, .btn-submit-message { min-height: 44px; font-size: 16px; }
+}
+
+@media (max-width: 420px) {
+    .nav-logo h2 { max-width: 180px; font-size: 15px; }
+    .hero { min-height: 330px; }
+    .hero-content h1 { font-size: 38px; }
+    .artikel-horizontal img, .detail-image { height: 195px; }
+    .profil-hero h1, .manajemen-hero h1 { font-size: 26px; }
+    .profil-title h2, .manajemen-title h2 { font-size: 20px; }
+    .organisasi-image-modern { height: 340px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; scroll-behavior: auto !important; }
+}
