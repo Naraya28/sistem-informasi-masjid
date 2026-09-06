@@ -3,6 +3,9 @@ $page_title = 'SIM Masjid Al-Firdaus';
 include 'includes/header.php';
 include 'includes/navbar.php';
 ?>
+
+<!-- BAB 3.5 CONFLICT POINT: versi awal -->
+
 <section class="hero">
     <img src="assets/img/banner.jpg" class="hero-img" alt="Masjid Al-Firdaus">
     <div class="hero-overlay"></div>
