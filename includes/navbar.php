@@ -2,6 +2,8 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
+<!-- Navbar dikembangkan oleh Fakhri pada praktik Bab 3.5 -->
+
 <header class="navbar-user">
 
     <!-- LOGO -->
