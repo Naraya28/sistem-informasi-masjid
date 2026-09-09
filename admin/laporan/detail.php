@@ -1,5 +1,14 @@
 <?php
-require '../auth.php';require '../../config/koneksi.php';$id=(int)($_GET['id']??0);$stmt=mysqli_prepare($conn,'SELECT l.*,u.nama_lengkap FROM laporan l LEFT JOIN users u ON l.created_by=u.id WHERE l.id=?');mysqli_stmt_bind_param($stmt,'i',$id);mysqli_stmt_execute($stmt);$data=mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));if(!$data){$_SESSION['error']='Laporan tidak ditemukan.';header('Location:index.php');exit;}$page_title='Detail Laporan';$active_menu='laporan';$admin_base='..';include '../includes/header.php';
+require __DIR__ . '/../auth.php';
+require_once __DIR__ . '/../../includes/laporan.php';
+$id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT) ?: 0;
+$rows = laporan_rows($conn, 'SELECT l.*, u.nama_lengkap AS creator FROM laporan l LEFT JOIN users u ON u.id=l.created_by WHERE l.id=?', 'i', [$id]);
+if (!$rows) { http_response_code(404); exit('Laporan tidak ditemukan.'); }
+$data = $rows[0];
+$page_title = 'Detail Laporan';
+$active_menu = 'laporan';
+$admin_base = '..';
+require __DIR__ . '/../includes/header.php';
 ?>
-<div class="detail-card"><div class="admin-page-header"><div><h1><?= htmlspecialchars($data['judul_laporan'],ENT_QUOTES,'UTF-8') ?></h1><p><?= date('d-m-Y',strtotime($data['tanggal'])) ?> | <?= htmlspecialchars($data['nama_lengkap']??'Admin',ENT_QUOTES,'UTF-8') ?></p></div><span class="badge"><?= htmlspecialchars($data['jenis_laporan'],ENT_QUOTES,'UTF-8') ?></span></div><div class="deskripsi-box"><?= nl2br(htmlspecialchars($data['deskripsi']??'',ENT_QUOTES,'UTF-8')) ?></div><?php if(!empty($data['file'])):?><p><a class="btn-detail" target="_blank" rel="noopener" href="../../uploads/laporan/<?= rawurlencode($data['file']) ?>">Buka Lampiran</a></p><?php endif;?><div class="detail-actions"><a class="btn-kembali" href="index.php">Kembali</a><a class="btn-edit" href="edit.php?id=<?= $id ?>">Edit</a><a class="btn-hapus" href="hapus.php?id=<?= $id ?>" onclick="return confirm('Hapus laporan ini?')">Hapus</a></div></div>
-<?php include '../includes/footer.php';?>
+<div class="detail-card"><div class="admin-page-header"><div><h1><?= laporan_escape($data['judul_laporan']) ?></h1><p><?= laporan_escape(date('d-m-Y', strtotime($data['tanggal']))) ?> | <?= laporan_escape($data['creator'] ?? 'Data Lama') ?></p></div><span class="badge"><?= laporan_escape($data['jenis_laporan']) ?></span></div><div class="deskripsi-box"><?= nl2br(laporan_escape($data['deskripsi'] ?? 'Tidak ada deskripsi.')) ?></div><?php if (!empty($data['file'])): $fileName = basename($data['file']); ?><p><a class="btn-detail" target="_blank" rel="noopener" href="<?= laporan_escape(app_url('uploads/laporan/' . rawurlencode($fileName))) ?>">Buka Lampiran</a></p><?php endif; ?><div class="detail-actions"><a class="btn-kembali" href="index.php">Kembali</a></div></div>
+<?php require __DIR__ . '/../includes/footer.php'; ?>

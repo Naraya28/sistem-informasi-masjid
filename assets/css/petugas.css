@@ -1,0 +1,13 @@
+@import url('bendahara.css');
+
+.report-app { --emerald:#087f6d; }
+.report-app .finance-sidebar nav a[aria-current] { background:#155247; color:#baf5e6; }
+.report-app .stat.balance { background:#e7f3ef; border-color:#cfe5dc; }
+.report-app .report-title { min-width:220px; max-width:360px; overflow-wrap:anywhere; font-weight:bold; }
+.report-app .report-description { color:var(--muted); max-width:380px; overflow-wrap:anywhere; }
+.report-app .attachment { color:var(--emerald); font-weight:bold; white-space:nowrap; }
+.report-app .detail-panel { padding:30px; }
+.report-app .detail-meta { display:flex; flex-wrap:wrap; gap:10px 24px; color:var(--muted); margin:10px 0 28px; }
+.report-app .detail-description { padding:22px; background:#f7f9fa; border:1px solid var(--line); border-radius:10px; white-space:pre-wrap; overflow-wrap:anywhere; }
+.report-app .form-panel { max-width:980px; }
+@media(max-width:800px) { .report-app .report-title { min-width:180px; } }
