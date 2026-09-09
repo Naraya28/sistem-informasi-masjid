@@ -1,2 +1,5 @@
 <?php
-require '../auth.php';require '../../config/koneksi.php';$id=(int)($_GET['id']??0);if($id>0){$stmt=mysqli_prepare($conn,'DELETE FROM keuangan WHERE id_keuangan=?');mysqli_stmt_bind_param($stmt,'i',$id);mysqli_stmt_execute($stmt);$_SESSION['success']='Data keuangan berhasil dihapus.';}header('Location:index.php');exit;
+require __DIR__ . '/../auth.php';
+$_SESSION['error'] = 'Pengelolaan transaksi dilakukan melalui akun Bendahara.';
+header('Location: ' . app_url('admin/keuangan/index.php'));
+exit;

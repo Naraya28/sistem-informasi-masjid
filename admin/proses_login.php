@@ -1,54 +1,36 @@
 <?php
-session_start();
-require '../config/koneksi.php';
+require_once __DIR__ . '/../includes/auth.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: login.php');
-    exit;
+    auth_redirect(app_url('admin/login.php'));
 }
 
-$username = trim($_POST['username'] ?? '');
-$password = $_POST['password'] ?? '';
+$username = is_string($_POST['username'] ?? null) ? trim($_POST['username']) : '';
+$password = is_string($_POST['password'] ?? null) ? $_POST['password'] : '';
 
 if ($username === '' || $password === '') {
     $_SESSION['error'] = 'Username dan password wajib diisi.';
-    header('Location: login.php');
-    exit;
+    auth_redirect(app_url('admin/login.php'));
 }
 
-$stmt = mysqli_prepare($conn, 'SELECT id, username, password, nama_lengkap, role FROM users WHERE username = ? LIMIT 1');
+require_once __DIR__ . '/../config/koneksi.php';
+$stmt = mysqli_prepare($conn, 'SELECT id, password, nama_lengkap, role FROM users WHERE username = ? LIMIT 1');
 mysqli_stmt_bind_param($stmt, 's', $username);
 mysqli_stmt_execute($stmt);
 $data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 
-$passwordValid = false;
-$passwordInfo = $data ? password_get_info($data['password']) : ['algo' => null];
+mysqli_stmt_close($stmt);
 
-if ($data) {
-    if (!empty($passwordInfo['algo'])) {
-        $passwordValid = password_verify($password, $data['password']);
-    } else {
-        $passwordValid = hash_equals((string) $data['password'], $password);
-        if ($passwordValid) {
-            $newHash = password_hash($password, PASSWORD_DEFAULT);
-            $userId = (int) $data['id'];
-            $update = mysqli_prepare($conn, 'UPDATE users SET password = ? WHERE id = ?');
-            mysqli_stmt_bind_param($update, 'si', $newHash, $userId);
-            mysqli_stmt_execute($update);
-        }
-    }
-}
-
-if (!$passwordValid || !in_array($data['role'], ['admin', 'pengurus'], true)) {
+// Existing Admin hash format was verified before removing plaintext compatibility.
+if (!$data || !isset(role_labels()[$data['role']]) || !password_verify($password, $data['password'])) {
     $_SESSION['error'] = 'Username atau password salah.';
-    header('Location: login.php');
-    exit;
+    auth_redirect(app_url('admin/login.php'));
 }
 
 session_regenerate_id(true);
+$_SESSION = [];
 $_SESSION['user_id'] = (int) $data['id'];
 $_SESSION['nama_lengkap'] = $data['nama_lengkap'];
 $_SESSION['role'] = $data['role'];
 $_SESSION['success'] = 'Login berhasil. Selamat datang, ' . $data['nama_lengkap'] . '.';
-header('Location: dashboard.php');
-exit;
+auth_redirect(dashboard_url($data['role']));

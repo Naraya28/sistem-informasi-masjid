@@ -1,7 +1,5 @@
 <?php
-require '../auth.php';require '../../config/koneksi.php';
-if($_SERVER['REQUEST_METHOD']==='POST'){$tanggal=$_POST['tanggal']??'';$jenis=$_POST['jenis']??'';$kategori=trim($_POST['kategori']??'');$jumlah=(int)($_POST['jumlah']??0);$keterangan=trim($_POST['keterangan']??'');if(!preg_match('/^\d{4}-\d{2}-\d{2}$/',$tanggal)||!in_array($jenis,['pemasukan','pengeluaran'],true)||$kategori===''||$jumlah<=0){$_SESSION['error']='Data keuangan belum lengkap atau jumlah tidak valid.';}else{$stmt=mysqli_prepare($conn,'INSERT INTO keuangan (tanggal,jenis,kategori,jumlah,keterangan) VALUES (?,?,?,?,?)');mysqli_stmt_bind_param($stmt,'sssis',$tanggal,$jenis,$kategori,$jumlah,$keterangan);mysqli_stmt_execute($stmt);$_SESSION['success']='Data keuangan berhasil ditambahkan.';header('Location:index.php?jenis='.$jenis);exit;}}
-$page_title='Tambah Keuangan';$active_menu='keuangan';$admin_base='..';include '../includes/header.php';
-?>
-<div class="form-card"><h1>Tambah Data Keuangan</h1><form method="POST" class="modern-form"><div class="form-group"><label>Tanggal</label><input type="date" name="tanggal" value="<?= date('Y-m-d') ?>" required></div><div class="form-group"><label>Jenis</label><select name="jenis"><option value="pemasukan">Pemasukan</option><option value="pengeluaran">Pengeluaran</option></select></div><div class="form-group"><label>Kategori</label><input name="kategori" maxlength="100" required></div><div class="form-group"><label>Jumlah (Rupiah)</label><input type="number" name="jumlah" min="1" step="1" required></div><div class="form-group"><label>Keterangan</label><textarea name="keterangan" rows="4"></textarea></div><button class="btn-simpan">Simpan Data</button> <a class="btn-kembali" href="index.php">Kembali</a></form></div>
-<?php include '../includes/footer.php';?>
+require __DIR__ . '/../auth.php';
+$_SESSION['error'] = 'Pengelolaan transaksi dilakukan melalui akun Bendahara.';
+header('Location: ' . app_url('admin/keuangan/index.php'));
+exit;

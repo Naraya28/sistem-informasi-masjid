@@ -1,10 +1,16 @@
 <?php
+// Shared auth and existing modules may both load this file in one request.
+if (isset($conn) && $conn instanceof mysqli) {
+    return;
+}
+
 /**
  * Muat konfigurasi lokal tanpa dependency tambahan.
  *
  * Nilai dari file .env project diprioritaskan agar konfigurasi Apache/Windows
  * di luar project tidak menimpa konfigurasi lokal aplikasi.
  */
+if (!function_exists('loadLocalEnv')) {
 function loadLocalEnv($path)
 {
     $values = array();
@@ -45,6 +51,7 @@ function loadLocalEnv($path)
     }
 
     return $values;
+}
 }
 
 $env = loadLocalEnv(dirname(__DIR__) . DIRECTORY_SEPARATOR . '.env');

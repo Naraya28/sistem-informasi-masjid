@@ -1,12 +1,25 @@
 <?php
-require '../auth.php';require '../../config/koneksi.php';
-$jenis=$_GET['jenis']??'pemasukan';if(!in_array($jenis,['pemasukan','pengeluaran'],true))$jenis='pemasukan';$search=trim($_GET['cari']??'');$page=max(1,(int)($_GET['page']??1));$limit=10;$start=($page-1)*$limit;$safe=mysqli_real_escape_string($conn,$search);$where=$search!==''?" AND kategori LIKE '%$safe%'":'';
-$total=(int)(mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) total FROM keuangan WHERE jenis='$jenis'$where"))['total']??0);$totalPages=max(1,(int)ceil($total/$limit));$data=mysqli_query($conn,"SELECT * FROM keuangan WHERE jenis='$jenis'$where ORDER BY tanggal DESC,id_keuangan DESC LIMIT $start,$limit");
-$pemasukan=(int)(mysqli_fetch_assoc(mysqli_query($conn,"SELECT COALESCE(SUM(jumlah),0) total FROM keuangan WHERE jenis='pemasukan'"))['total']??0);$pengeluaran=(int)(mysqli_fetch_assoc(mysqli_query($conn,"SELECT COALESCE(SUM(jumlah),0) total FROM keuangan WHERE jenis='pengeluaran'"))['total']??0);
-$page_title='Kelola Keuangan';$active_menu='keuangan';$admin_base='..';include '../includes/header.php';
+require __DIR__ . '/../auth.php';
+require_once __DIR__ . '/../../includes/keuangan.php';
+try {
+    $summary = keuangan_summary($conn, null);
+    $list = keuangan_list($conn, null, $_GET);
+} catch (RuntimeException $error) { http_response_code(500); exit(keuangan_escape($error->getMessage())); }
+$page_title = 'Monitoring Keuangan';
+$active_menu = 'keuangan';
+$admin_base = '..';
+$monitoring = true;
+require __DIR__ . '/../includes/header.php';
 ?>
-<div class="admin-page-header"><div><h1>Kelola Keuangan</h1><p>Catatan pemasukan dan pengeluaran masjid</p></div><a class="btn-tambah" href="tambah.php">+ Tambah Data</a></div>
-<div class="keuangan-cards"><div class="keuangan-card masuk"><h3>Pemasukan</h3><p>Rp <?= number_format($pemasukan,0,',','.') ?></p></div><div class="keuangan-card keluar"><h3>Pengeluaran</h3><p>Rp <?= number_format($pengeluaran,0,',','.') ?></p></div><div class="keuangan-card saldo"><h3>Saldo</h3><p>Rp <?= number_format($pemasukan-$pengeluaran,0,',','.') ?></p></div></div>
-<div class="content-card"><div class="table-top"><div class="tab-keuangan"><a class="<?= $jenis==='pemasukan'?'active':'' ?>" href="?jenis=pemasukan&cari=<?= urlencode($search) ?>">Pemasukan</a><a class="<?= $jenis==='pengeluaran'?'active':'' ?>" href="?jenis=pengeluaran&cari=<?= urlencode($search) ?>">Pengeluaran</a></div><form method="GET" class="search-form"><input type="hidden" name="jenis" value="<?= $jenis ?>"><input name="cari" value="<?= htmlspecialchars($search,ENT_QUOTES,'UTF-8') ?>" placeholder="Cari kategori..."><button><i class="fa fa-search"></i></button></form></div>
-<div class="table-responsive"><table><thead><tr><th>Tanggal</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Aksi</th></tr></thead><tbody><?php if(mysqli_num_rows($data)===0):?><tr><td colspan="5" class="empty">Data tidak ditemukan.</td></tr><?php endif;?><?php while($row=mysqli_fetch_assoc($data)):?><tr><td><?= date('d-m-Y',strtotime($row['tanggal'])) ?></td><td><?= htmlspecialchars($row['kategori'],ENT_QUOTES,'UTF-8') ?></td><td><?= htmlspecialchars($row['keterangan']??'-',ENT_QUOTES,'UTF-8') ?></td><td>Rp <?= number_format($row['jumlah'],0,',','.') ?></td><td><a class="btn-edit" href="edit.php?id=<?= (int)$row['id_keuangan'] ?>">Edit</a> <a class="btn-hapus" href="hapus.php?id=<?= (int)$row['id_keuangan'] ?>" onclick="return confirm('Hapus data keuangan ini?')">Hapus</a></td></tr><?php endwhile;?></tbody></table></div><div class="pagination"><?php for($i=1;$i<=$totalPages;$i++):?><a class="<?= $i===$page?'active-page':'' ?>" href="?jenis=<?= $jenis ?>&cari=<?= urlencode($search) ?>&page=<?= $i ?>"><?= $i ?></a><?php endfor;?></div></div>
-<?php include '../includes/footer.php';?>
+<div class="admin-page-header"><div><h1>Monitoring Keuangan</h1><p>Ringkasan dan catatan transaksi yang diinput Bendahara.</p></div></div>
+<div class="keuangan-cards">
+    <div class="keuangan-card masuk"><h3>Pemasukan</h3><p><?= keuangan_rupiah($summary['pemasukan']) ?></p></div>
+    <div class="keuangan-card keluar"><h3>Pengeluaran</h3><p><?= keuangan_rupiah($summary['pengeluaran']) ?></p></div>
+    <div class="keuangan-card saldo"><h3>Saldo</h3><p><?= keuangan_rupiah($summary['pemasukan']-$summary['pengeluaran']) ?></p></div>
+</div>
+<div class="content-card">
+<?php require __DIR__ . '/../../includes/keuangan_filters.php'; ?>
+<?php require __DIR__ . '/../../includes/keuangan_table.php'; ?>
+<?php require __DIR__ . '/../../includes/keuangan_pagination.php'; ?>
+</div>
+<?php require __DIR__ . '/../includes/footer.php'; ?>

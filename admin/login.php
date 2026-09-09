@@ -1,8 +1,7 @@
 <?php
-session_start();
-if (!empty($_SESSION['user_id']) && in_array($_SESSION['role'] ?? '', ['admin', 'pengurus'], true)) {
-    header('Location: dashboard.php');
-    exit;
+require_once __DIR__ . '/../includes/auth.php';
+if (is_logged_in()) {
+    auth_redirect(dashboard_url(current_role()));
 }
 ?>
 <!DOCTYPE html>
@@ -10,7 +9,7 @@ if (!empty($_SESSION['user_id']) && in_array($_SESSION['role'] ?? '', ['admin', 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin | SIM Masjid</title>
+    <title>Login Dashboard | SIM Masjid</title>
     <link rel="stylesheet" href="../assets/css/login.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>

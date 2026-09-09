@@ -102,7 +102,7 @@ include 'includes/header.php';
         <div class="quick-links">
             <a href="pengurus/tambah.php"><span><i class="fa fa-user-plus"></i></span><div><strong>Tambah Pengurus</strong><small>Lengkapi struktur organisasi</small></div></a>
             <a href="kegiatan/tambah.php"><span><i class="fa fa-pen-to-square"></i></span><div><strong>Tulis Artikel</strong><small>Publikasikan kegiatan baru</small></div></a>
-            <a href="keuangan/tambah.php"><span><i class="fa fa-wallet"></i></span><div><strong>Catat Keuangan</strong><small>Tambah transaksi kas</small></div></a>
+            <a href="keuangan/index.php"><span><i class="fa fa-wallet"></i></span><div><strong>Monitoring Keuangan</strong><small>Lihat transaksi Bendahara</small></div></a>
             <a href="laporan/tambah.php"><span><i class="fa fa-file-circle-plus"></i></span><div><strong>Buat Laporan</strong><small>Simpan laporan terbaru</small></div></a>
         </div>
     </section>
