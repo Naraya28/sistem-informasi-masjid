@@ -12,7 +12,9 @@ function setPublicNav(open) {
     publicNavPanel.classList.toggle('show', open);
     publicNavToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     publicNavToggle.setAttribute('aria-label', open ? 'Tutup menu navigasi' : 'Buka menu navigasi');
-    publicNavToggle.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+    publicNavToggle.innerHTML = open
+        ? '<i class="fa-solid fa-xmark"></i>'
+        : '<i class="fa-solid fa-bars"></i>';
 }
 
 if (publicNavToggle) {
@@ -21,17 +23,26 @@ if (publicNavToggle) {
     });
 
     publicNavPanel.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('click', function () { setPublicNav(false); });
+        link.addEventListener('click', function () {
+            setPublicNav(false);
+        });
     });
 
     document.addEventListener('click', function (event) {
-        if (window.innerWidth <= 900 && publicNavbar.classList.contains('nav-open') && !publicNavbar.contains(event.target)) {
+        if (
+            window.innerWidth <= 900 &&
+            publicNavbar.classList.contains('nav-open') &&
+            !publicNavbar.contains(event.target)
+        ) {
             setPublicNav(false);
         }
     });
 
     document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && publicNavbar.classList.contains('nav-open')) {
+        if (
+            event.key === 'Escape' &&
+            publicNavbar.classList.contains('nav-open')
+        ) {
             setPublicNav(false);
             publicNavToggle.focus();
         }
