@@ -1,9 +1,11 @@
 <?php
 require __DIR__ . '/../auth.php';
 require_once __DIR__ . '/../../includes/keuangan.php';
+require_once __DIR__ . '/../../includes/delete_approval.php';
 try {
     $summary = keuangan_summary($conn, null);
     $list = keuangan_list($conn, null, $_GET);
+    $pendingDeleteMap = delete_approval_pending_map($conn, 'keuangan', 0, array_column($list['rows'], 'id_keuangan'));
 } catch (RuntimeException $error) { http_response_code(500); exit(keuangan_escape($error->getMessage())); }
 $page_title = 'Monitoring Keuangan';
 $active_menu = 'keuangan';
