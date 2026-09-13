@@ -5,15 +5,15 @@ if (is_logged_in()) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="login-document">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Dashboard | SIM Masjid</title>
-    <link rel="stylesheet" href="../assets/css/login.css">
+    <title>Masuk ke Sistem | SIM Masjid</title>
+    <link rel="stylesheet" href="../assets/css/login.css?v=<?= filemtime(__DIR__ . '/../assets/css/login.css') ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="login-page">
 <div class="background-overlay"></div>
 <div class="floating-icons" aria-hidden="true">
     <span class="floating-icon icon-mosque"><i class="fa-solid fa-mosque"></i></span>
@@ -36,8 +36,10 @@ if (is_logged_in()) {
     </div>
     <div class="login-right">
         <div class="login-heading-icon"><i class="fa-solid fa-mosque"></i></div>
-        <h2>Login Dashboard</h2>
-        <p class="login-subtitle">Masuk untuk mengelola informasi masjid.</p>
+        <span class="login-eyebrow">Portal Pengelola</span>
+        <h2>Masuk ke Sistem</h2>
+        <p class="login-subtitle">Akses dashboard sesuai peran Anda.</p>
+        <p class="login-roles"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Admin <span>&bull;</span> Bendahara <span>&bull;</span> Petugas Masjid</p>
         <?php if (!empty($_SESSION['error'])): ?>
             <div class="login-alert"><?= htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8') ?></div>
             <?php unset($_SESSION['error']); ?>

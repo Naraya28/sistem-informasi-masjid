@@ -11,3 +11,13 @@
 .report-app .detail-description { padding:22px; background:#f7f9fa; border:1px solid var(--line); border-radius:10px; white-space:pre-wrap; overflow-wrap:anywhere; }
 .report-app .form-panel { max-width:980px; }
 @media(max-width:800px) { .report-app .report-title { min-width:180px; } }
+
+.report-app .stat.count { background:#edf4fa; border-color:#d5e2ec; }
+.report-app .stat.income { background:#e7f2f1; border-color:#cee2df; }
+.report-app .stat.balance { background:#edf8f3; border-color:#d3e9de; }
+.report-app .stat.expense { background:#fbf2ed; border-color:#eeddd3; }
+.report-app .detail-panel { background:linear-gradient(145deg,#fff,#f7fafa); }
+.report-app .detail-meta span { display:inline-flex; align-items:center; min-height:30px; padding:5px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; color:#526b74; }
+.report-app .detail-description { background:#eef5f4; border-color:#d7e5e1; line-height:1.8; }
+.report-app .attachment { color:var(--emerald-dark); }
+.report-app input[type="file"] { padding:10px; background:#f7fafa; }

@@ -10,9 +10,9 @@ include 'includes/navbar.php';
     <div class="kontak-box">
         <h1>Kontak Masjid</h1>
         <p class="subtitle">Hubungi pengurus Masjid Al-Firdaus untuk informasi kegiatan, donasi, atau pelayanan jamaah.</p>
-        <a href="https://wa.me/628123456789" target="_blank" rel="noopener" class="btn-wa">WhatsApp Pengurus</a>
-        <a href="mailto:MasjidAlFirdaus@gmail.com" class="btn-email">MasjidAlFirdaus@gmail.com</a>
-        <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-instagram">Instagram Masjid Al-Firdaus</a>
+        <a href="https://wa.me/628123456789" target="_blank" rel="noopener" class="btn-wa"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>WhatsApp Pengurus</span></a>
+        <a href="mailto:MasjidAlFirdaus@gmail.com" class="btn-email"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>MasjidAlFirdaus@gmail.com</span></a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span>Instagram Masjid Al-Firdaus</span></a>
     </div>
 
     <div class="kontak-box message-form-card" id="form-pesan">
