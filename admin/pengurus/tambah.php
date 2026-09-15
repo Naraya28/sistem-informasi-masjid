@@ -36,5 +36,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $page_title='Tambah Pengurus'; $active_menu='pengurus'; $admin_base='..'; include '../includes/header.php';
 ?>
-<div class="form-card"><h1>Tambah Pengurus</h1><form method="POST" enctype="multipart/form-data" class="modern-form"><div class="form-group"><label>Nama Lengkap</label><input name="nama" maxlength="100" required></div><div class="form-group"><label>Jabatan</label><select name="jabatan" required><option value="">Pilih Jabatan</option><?php foreach($listJabatan as $item): ?><option><?= $item ?></option><?php endforeach; ?></select></div><div class="form-group"><label>Foto (maks. 2 MB)</label><input type="file" name="foto" accept="image/jpeg,image/png,image/webp" required><small class="form-hint">Gunakan foto portrait/tegak, format JPG/PNG/WEBP, maksimal 2 MB.</small></div><div class="form-group"><label>Deskripsi</label><textarea name="deskripsi" rows="5" required></textarea></div><button class="btn-simpan" type="submit">Simpan Data</button> <a class="btn-kembali" href="index.php">Kembali</a></form></div>
+<div class="admin-page-header"><div><h1>Tambah Pengurus</h1><p>Lengkapi identitas dan peran pengurus masjid.</p></div></div>
+<form method="POST" enctype="multipart/form-data" class="modern-form admin-editor">
+    <section class="editor-section">
+        <div class="editor-section-heading"><span><i class="fa fa-user"></i></span><div><h2>Informasi Pengurus</h2><p>Data utama yang akan tampil pada struktur organisasi.</p></div></div>
+        <div class="form-grid two-columns">
+            <div class="form-group"><label>Nama Lengkap</label><input name="nama" maxlength="100" required></div>
+            <div class="form-group"><label>Jabatan</label><select name="jabatan" required><option value="">Pilih Jabatan</option><?php foreach($listJabatan as $item): ?><option><?= $item ?></option><?php endforeach; ?></select></div>
+        </div>
+    </section>
+    <section class="editor-section">
+        <div class="editor-section-heading"><span><i class="fa fa-camera"></i></span><div><h2>Foto &amp; Deskripsi</h2><p>Gunakan foto portrait yang jelas dan deskripsi singkat.</p></div></div>
+        <div class="form-grid media-columns">
+            <div class="file-upload portrait-upload" data-file-upload>
+                <img data-file-preview hidden alt="Preview foto pengurus">
+                <div class="file-upload-copy"><i class="fa fa-cloud-arrow-up"></i><strong>Pilih foto</strong><span>JPG, PNG atau WEBP &bull; maks. 2 MB</span><small><b data-file-name>Belum ada file</b><em data-file-size></em></small></div>
+                <input type="file" name="foto" accept="image/jpeg,image/png,image/webp" aria-label="Pilih foto pengurus" required>
+            </div>
+            <div class="form-group"><label>Deskripsi</label><textarea name="deskripsi" rows="6" required></textarea><small class="form-hint">Tuliskan tanggung jawab atau keterangan singkat pengurus.</small></div>
+        </div>
+    </section>
+    <div class="editor-actions"><a class="btn-kembali" href="index.php">Kembali</a><button class="btn-simpan" type="submit"><i class="fa fa-floppy-disk"></i> Simpan Data</button></div>
+</form>
 <?php include '../includes/footer.php'; ?>

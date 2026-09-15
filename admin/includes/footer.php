@@ -38,5 +38,6 @@ window.addEventListener('resize', function () {
     if (window.innerWidth > 900) closeSidebar();
 });
 </script>
+<script src="<?= $admin_base ?>/../assets/js/file-preview.js?v=<?= filemtime(__DIR__ . '/../../assets/js/file-preview.js') ?>"></script>
 </body>
 </html>

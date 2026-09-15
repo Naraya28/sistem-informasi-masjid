@@ -1,0 +1,10 @@
+.nav-count { display:inline-grid; min-width:20px; height:20px; place-items:center; margin-left:auto; padding:0 5px; border-radius:10px; background:#e3a33b; color:#fff; font-size:11px; font-weight:bold; }
+.approval-badge,.approval-status { display:inline-block; padding:4px 8px; border-radius:6px; font-size:11px; font-weight:bold; white-space:nowrap; }
+.approval-badge.pending,.approval-status.pending { background:#fff1d6; color:#9a6100; }
+.approval-status.approved { background:#e3f4eb; color:#176743; }
+.approval-status.rejected { background:#eef0f2; color:#5f6970; }
+.inline-action { display:inline; margin:0; }
+.danger-link { border:0; background:none; cursor:pointer; color:#a04b3b; }
+.btn-small { border:0; border-radius:6px; padding:7px 10px; cursor:pointer; font-weight:bold; margin:2px; }
+.btn-small.approve { background:#e3f4eb; color:#176743; }
+.btn-small.reject { background:#fff0ed; color:#923a2a; }

@@ -22,9 +22,9 @@ include '../includes/header.php';
 ?>
 <div class="admin-page-header"><div><h1>Pesan Masuk</h1><p><?= $total ?> pesan dari pengunjung website</p></div></div>
 <div class="content-card">
-    <form method="GET" class="filter-bar"><input type="text" name="search" value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>" placeholder="Cari nama, email, subjek..."><button type="submit" class="btn">Cari</button></form>
+    <form method="GET" class="filter-bar message-filter admin-filter-bar"><input class="admin-filter-search" type="text" name="search" value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>" placeholder="Cari nama, email, subjek..."><button type="submit" class="btn admin-filter-action"><i class="fa fa-search"></i> Cari</button></form>
     <div class="table-responsive"><table><thead><tr><th>Tanggal</th><th>Pengirim</th><th>Kontak</th><th>Subjek dan Pesan</th><th>Aksi</th></tr></thead><tbody>
-    <?php if (mysqli_num_rows($data) === 0): ?><tr><td colspan="5" class="empty">Belum ada pesan.</td></tr><?php endif; ?>
+    <?php if (mysqli_num_rows($data) === 0): ?><tr><td colspan="5"><div class="table-empty"><i class="fa fa-envelope-open"></i><strong>Belum ada pesan masuk</strong><span>Pesan dari pengunjung website akan tampil di sini.</span></div></td></tr><?php endif; ?>
     <?php while ($row = mysqli_fetch_assoc($data)): ?><tr>
         <td><?= date('d-m-Y H:i', strtotime($row['tanggal'])) ?></td>
         <td><strong><?= htmlspecialchars($row['nama'], ENT_QUOTES, 'UTF-8') ?></strong></td>
@@ -32,6 +32,6 @@ include '../includes/header.php';
         <td><strong><?= htmlspecialchars($row['subjek'] ?: 'Tanpa subjek', ENT_QUOTES, 'UTF-8') ?></strong><br><?= nl2br(htmlspecialchars($row['pesan'], ENT_QUOTES, 'UTF-8')) ?></td>
         <td><a class="btn-hapus" href="hapus.php?id=<?= (int) $row['id'] ?>" onclick="return confirm('Hapus pesan ini?')">Hapus</a></td>
     </tr><?php endwhile; ?></tbody></table></div>
-    <div class="pagination"><?php for ($i = 1; $i <= $totalPages; $i++): ?><a class="<?= $i === $page ? 'active-page' : '' ?>" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a><?php endfor; ?></div>
+    <?php if ($total > 0): ?><div class="pagination"><?php for ($i = 1; $i <= $totalPages; $i++): ?><a class="<?= $i === $page ? 'active-page' : '' ?>" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a><?php endfor; ?></div><?php endif; ?>
 </div>
 <?php include '../includes/footer.php'; ?>

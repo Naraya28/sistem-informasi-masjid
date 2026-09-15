@@ -8,10 +8,11 @@ $admin_base = $admin_base ?? '..';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($page_title, ENT_QUOTES, 'UTF-8') ?></title>
-    <link rel="stylesheet" href="<?= $admin_base ?>/../assets/css/admin.css">
+    <link rel="stylesheet" href="<?= $admin_base ?>/../assets/css/admin.css?v=<?= filemtime(__DIR__ . '/../../assets/css/admin.css') ?>">
+    <link rel="stylesheet" href="<?= $admin_base ?>/../assets/css/delete-approval.css?v=<?= filemtime(__DIR__ . '/../../assets/css/delete-approval.css') ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="admin-shell">
 <button class="sidebar-toggle" type="button" aria-label="Buka menu navigasi" aria-controls="adminSidebar" aria-expanded="false" onclick="toggleSidebar()"><i class="fa fa-bars"></i></button>
 <button class="sidebar-backdrop" type="button" aria-label="Tutup menu navigasi" onclick="closeSidebar()"></button>
 <div class="layout">

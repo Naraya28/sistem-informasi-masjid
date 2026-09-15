@@ -38,17 +38,24 @@ try {
 $title = $editing ? 'Edit Transaksi' : 'Tambah Transaksi';
 require __DIR__ . '/../includes/header.php';
 ?>
-<div class="page-heading"><div><p class="eyebrow">PENCATATAN KEUANGAN</p><h1><?= $title ?></h1><p>Lengkapi rincian transaksi dengan benar.</p></div><a class="button secondary" href="index.php">Kembali</a></div>
-<section class="panel form-panel">
+<div class="page-heading"><div><p class="eyebrow">PENCATATAN KEUANGAN</p><h1><?= $title ?></h1><p><?= $editing ? 'Perbarui data transaksi yang dipilih.' : 'Catat pemasukan atau pengeluaran baru.' ?></p></div></div>
+<section class="transaction-editor">
 <?php if ($errors): ?><div class="alert error" role="alert"><strong>Transaksi belum disimpan.</strong><ul><?php foreach ($errors as $error): ?><li><?= keuangan_escape($error) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
 <form method="POST" class="transaction-form">
 <?= csrf_field() ?>
+<section class="form-section">
+<div class="form-section-heading"><span><i class="fa-solid fa-receipt" aria-hidden="true"></i></span><div><small>INFORMASI TRANSAKSI</small><h2>Rincian Utama</h2><p>Masukkan tanggal, jenis, kategori, dan nominal transaksi.</p></div></div>
 <div class="form-grid">
-<div class="field"><label for="tanggal">Tanggal</label><input id="tanggal" name="tanggal" type="date" min="1000-01-01" max="9999-12-31" value="<?= keuangan_escape($values['tanggal']) ?>" required></div>
 <div class="field"><label for="jenis">Jenis Transaksi</label><select id="jenis" name="jenis" required><option value="pemasukan" <?= $values['jenis']==='pemasukan'?'selected':'' ?>>Pemasukan</option><option value="pengeluaran" <?= $values['jenis']==='pengeluaran'?'selected':'' ?>>Pengeluaran</option></select></div>
+<div class="field"><label for="tanggal">Tanggal</label><input id="tanggal" name="tanggal" type="date" min="1000-01-01" max="9999-12-31" value="<?= keuangan_escape($values['tanggal']) ?>" required></div>
 <div class="field"><label for="kategori">Kategori</label><input id="kategori" name="kategori" maxlength="100" value="<?= keuangan_escape($values['kategori']) ?>" placeholder="Contoh: Infak Jumat" required><small>Maksimal 100 karakter.</small></div>
-<div class="field"><label for="jumlah">Jumlah (Rupiah)</label><input id="jumlah" name="jumlah" type="number" inputmode="numeric" min="1" max="2147483647" step="1" value="<?= keuangan_escape($values['jumlah']) ?>" placeholder="Contoh: 150000" required><small>Bilangan bulat tanpa titik atau koma.</small></div>
-<div class="field full"><label for="keterangan">Keterangan <span class="subtle">(opsional)</span></label><textarea id="keterangan" name="keterangan" rows="5" maxlength="2000" placeholder="Tambahkan rincian transaksi bila diperlukan"><?= keuangan_escape($values['keterangan']) ?></textarea><small>Maksimal 2.000 karakter.</small></div>
-</div><div class="form-actions"><button class="button primary" type="submit"><?= $editing ? 'Simpan Perubahan' : 'Simpan Transaksi' ?></button><a class="button secondary" href="index.php">Kembali</a></div>
+<div class="field"><label for="jumlah">Jumlah</label><div class="currency-input"><span>Rp</span><input id="jumlah" name="jumlah" type="number" inputmode="numeric" min="1" max="2147483647" step="1" value="<?= keuangan_escape($values['jumlah']) ?>" placeholder="Contoh: 150000" required></div><small>Bilangan bulat tanpa titik atau koma.</small></div>
+</div>
+</section>
+<section class="form-section">
+<div class="form-section-heading"><span><i class="fa-solid fa-align-left" aria-hidden="true"></i></span><div><small>KETERANGAN</small><h2>Catatan Tambahan</h2><p>Tambahkan informasi pendukung bila diperlukan.</p></div></div>
+<div class="field"><label for="keterangan">Keterangan <span class="subtle">(opsional)</span></label><textarea id="keterangan" name="keterangan" rows="5" maxlength="2000" placeholder="Tambahkan rincian transaksi bila diperlukan"><?= keuangan_escape($values['keterangan']) ?></textarea><small>Maksimal 2.000 karakter.</small></div>
+</section>
+<div class="form-actions"><div class="form-action-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Pastikan nominal dan jenis transaksi sudah benar.</span></div><div class="form-action-buttons"><a class="button secondary" href="index.php">Kembali</a><button class="button primary" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> <?= $editing ? 'Simpan Perubahan' : 'Simpan Transaksi' ?></button></div></div>
 </form></section>
 <?php require __DIR__ . '/../includes/footer.php'; ?>
