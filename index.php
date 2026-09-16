@@ -1,7 +1,11 @@
 <?php
+require __DIR__ . '/config/koneksi.php';
+require_once __DIR__ . '/includes/article_news.php';
+$homeNews = article_news_latest($conn, 3);
 $page_title = 'SIM Masjid Al-Firdaus';
-include 'includes/header.php';
-include 'includes/navbar.php';
+$page_stylesheets = ['assets/css/article-news.css'];
+include __DIR__ . '/includes/header.php';
+include __DIR__ . '/includes/navbar.php';
 ?>
 
 <!-- BAB 3.5 CONFLICT POINT: versi Fakhri -->
@@ -19,5 +23,24 @@ include 'includes/navbar.php';
     </section>
     <section class="about"><h1>Selamat Datang Di Masjid Al-Firdaus</h1><p>Masjid Al-Firdaus terus berusaha membangun umat dan menyejahterakan masyarakat melalui dakwah dan kegiatan sosial.</p></section>
 </section>
+<section class="home-news" aria-labelledby="home-news-title">
+    <div class="news-shell">
+        <header class="home-news-heading">
+            <div>
+                <p class="institution-eyebrow">Kabar Masjid</p>
+                <h2 id="home-news-title">Berita Terbaru</h2>
+                <p>Informasi kegiatan dan kabar terbaru dari Masjid Al-Firdaus.</p>
+            </div>
+            <a href="artikel.php">Lihat Semua Artikel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </header>
+        <?php if ($homeNews): ?>
+            <div class="institution-news-grid">
+                <?php foreach ($homeNews as $newsArticle) include __DIR__ . '/includes/article_news_card.php'; ?>
+            </div>
+        <?php else: ?>
+            <div class="institution-news-empty"><i class="fa-regular fa-newspaper" aria-hidden="true"></i><p>Belum ada berita yang dipublikasikan.</p></div>
+        <?php endif; ?>
+    </div>
+</section>
 <script src="assets/js/home.js"></script>
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/includes/footer.php'; ?>
