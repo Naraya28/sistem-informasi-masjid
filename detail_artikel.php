@@ -1,28 +1,94 @@
 <?php
-require 'config/koneksi.php';
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$stmt = mysqli_prepare($conn, 'SELECT a.*, k.nama_kategori FROM artikel a LEFT JOIN kategori_kegiatan k ON a.id_kategori = k.id_kategori WHERE a.id_artikel = ? AND a.deleted_at IS NULL');
-mysqli_stmt_bind_param($stmt, 'i', $id);
-mysqli_stmt_execute($stmt);
-$data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
-$page_title = $data ? $data['judul'] : 'Artikel Tidak Ditemukan';
-include 'includes/header.php';
-include 'includes/navbar.php';
+require __DIR__ . '/config/koneksi.php';
+require_once __DIR__ . '/includes/article_news.php';
+
+$idInput = $_GET['id'] ?? null;
+$id = is_scalar($idInput) ? filter_var($idInput, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) : false;
+$article = $id === false ? null : article_news_find($conn, (int) $id);
+$related = $article ? article_news_related($conn, $article) : [];
+$categories = article_news_categories($conn);
+if (!$article) {
+    http_response_code(404);
+}
+
+$page_title = $article ? $article['judul'] . ' | Masjid Al-Firdaus' : 'Artikel Tidak Ditemukan | Masjid Al-Firdaus';
+$page_description = $article ? article_news_excerpt($article['deskripsi'], 160) : 'Artikel yang diminta tidak ditemukan.';
+$page_stylesheets = ['assets/css/article-news.css'];
+include __DIR__ . '/includes/header.php';
+include __DIR__ . '/includes/navbar.php';
 ?>
-<div class="detail-wrapper">
-    <?php if (!$data): ?>
-        <div class="detail-card"><p>Artikel tidak ditemukan.</p><a href="artikel.php" class="btn-kembali-artikel">Kembali ke Artikel</a></div>
-    <?php else: ?>
-        <div class="detail-card">
-            <img src="uploads/kegiatan/<?= rawurlencode($data['gambar']) ?>" alt="<?= htmlspecialchars($data['judul'], ENT_QUOTES, 'UTF-8') ?>" class="detail-image" onerror="this.src='assets/img/banner.jpg'">
-            <div class="detail-content">
-                <span class="detail-kategori"><?= htmlspecialchars($data['nama_kategori'] ?? 'Umum', ENT_QUOTES, 'UTF-8') ?></span>
-                <p class="detail-tanggal">Diposting pada: <?= date('d-m-Y', strtotime($data['tanggal'])) ?></p>
-                <h1 class="detail-judul"><?= htmlspecialchars($data['judul'], ENT_QUOTES, 'UTF-8') ?></h1>
-                <div class="detail-deskripsi"><?= nl2br(htmlspecialchars($data['deskripsi'], ENT_QUOTES, 'UTF-8')) ?></div>
-                <a href="artikel.php" class="btn-kembali-artikel">Kembali ke Artikel</a>
-            </div>
+<main class="institution-detail">
+    <section class="institution-detail-hero">
+        <div class="news-shell">
+            <h1><?= $article ? article_news_escape($article['judul']) : 'Artikel Tidak Ditemukan' ?></h1>
+            <nav aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="index.php">Beranda</a></li>
+                    <li><a href="artikel.php">Artikel</a></li>
+                    <li aria-current="page"><span><?= $article ? 'Detail Berita' : 'Tidak Ditemukan' ?></span></li>
+                </ol>
+            </nav>
         </div>
-    <?php endif; ?>
-</div>
-<?php include 'includes/footer.php'; ?>
+    </section>
+
+    <div class="news-shell institution-detail-shell">
+        <?php if (!$article): ?>
+            <section class="institution-not-found" aria-labelledby="not-found-title">
+                <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
+                <h2 id="not-found-title">Berita Tidak Tersedia</h2>
+                <p>Artikel yang Anda cari tidak tersedia atau sudah dipindahkan dari halaman publik.</p>
+                <a href="artikel.php"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke Artikel</a>
+            </section>
+        <?php else: $mainImage = article_news_image($article['gambar']); ?>
+            <div class="institution-detail-layout">
+                <article class="institution-article-main">
+                    <div class="institution-article-image">
+                        <?php if ($mainImage): ?>
+                            <img src="<?= article_news_escape($mainImage) ?>" alt="<?= article_news_escape($article['judul']) ?>">
+                        <?php else: ?>
+                            <div class="institution-news-fallback"><i class="fa-solid fa-mosque" aria-hidden="true"></i><span>Masjid Al-Firdaus</span></div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="institution-article-meta">
+                        <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> <?= article_news_escape(article_news_date($article['tanggal'])) ?></span>
+                        <a href="artikel.php?kategori=<?= (int) $article['id_kategori'] ?>"><i class="fa-solid fa-tag" aria-hidden="true"></i> <?= article_news_escape($article['nama_kategori'] ?: 'Tanpa Kategori') ?></a>
+                    </div>
+                    <div class="institution-article-body"><?= nl2br(article_news_escape($article['deskripsi'])) ?></div>
+                    <a class="institution-back-link" href="artikel.php"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke Artikel</a>
+                </article>
+
+                <aside class="institution-detail-sidebar">
+                    <section class="institution-sidebar-block" aria-labelledby="category-title">
+                        <h2 id="category-title">Kategori</h2>
+                        <ul class="institution-category-list">
+                            <?php foreach ($categories as $category): ?>
+                                <li><a href="artikel.php?kategori=<?= (int) $category['id_kategori'] ?>"><span><?= article_news_escape($category['nama_kategori']) ?> <small><?= (int) $category['article_count'] ?></small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </section>
+
+                    <?php if ($related): ?>
+                        <section class="institution-sidebar-block" aria-labelledby="related-title">
+                            <h2 id="related-title">Artikel Terkait</h2>
+                            <div class="institution-related-list">
+                                <?php foreach ($related as $item): $relatedImage = article_news_image($item['gambar']); ?>
+                                    <article class="institution-related-item">
+                                        <a class="institution-related-thumb" href="detail_artikel.php?id=<?= (int) $item['id_artikel'] ?>" aria-label="Baca <?= article_news_escape($item['judul']) ?>">
+                                            <?php if ($relatedImage): ?><img src="<?= article_news_escape($relatedImage) ?>" alt="" loading="lazy">
+                                            <?php else: ?><span><i class="fa-solid fa-mosque" aria-hidden="true"></i></span><?php endif; ?>
+                                        </a>
+                                        <div>
+                                            <p><?= article_news_escape($item['nama_kategori'] ?: 'Tanpa Kategori') ?> &middot; <?= article_news_escape(article_news_date($item['tanggal'])) ?></p>
+                                            <h3><a href="detail_artikel.php?id=<?= (int) $item['id_artikel'] ?>"><?= article_news_escape($item['judul']) ?></a></h3>
+                                        </div>
+                                    </article>
+                                <?php endforeach; ?>
+                            </div>
+                        </section>
+                    <?php endif; ?>
+                </aside>
+            </div>
+        <?php endif; ?>
+    </div>
+</main>
+<?php include __DIR__ . '/includes/footer.php'; ?>
