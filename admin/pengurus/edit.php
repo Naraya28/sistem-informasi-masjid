@@ -1,6 +1,6 @@
 <?php
 require '../auth.php'; require '../../config/koneksi.php';
-$id=(int)($_GET['id']??0); $stmt=mysqli_prepare($conn,'SELECT * FROM pengurus WHERE id=?'); mysqli_stmt_bind_param($stmt,'i',$id); mysqli_stmt_execute($stmt); $data=mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+$id=(int)($_GET['id']??0); $stmt=mysqli_prepare($conn,'SELECT * FROM pengurus WHERE id=? AND deleted_at IS NULL'); mysqli_stmt_bind_param($stmt,'i',$id); mysqli_stmt_execute($stmt); $data=mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 if(!$data){ $_SESSION['error']='Data pengurus tidak ditemukan.'; header('Location:index.php'); exit; }
 $listJabatan=['Ketua','Wakil Ketua','Sekretaris','Bendahara','Humas','Keamanan'];
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     }
    }
   }
-  if(empty($_SESSION['error'])){$update=mysqli_prepare($conn,'UPDATE pengurus SET nama=?,jabatan=?,foto=?,deskripsi=? WHERE id=?'); mysqli_stmt_bind_param($update,'ssssi',$nama,$jabatan,$foto,$deskripsi,$id); mysqli_stmt_execute($update); $_SESSION['success']='Data pengurus berhasil diperbarui.'; header('Location:index.php'); exit;}
+  if(empty($_SESSION['error'])){$update=mysqli_prepare($conn,'UPDATE pengurus SET nama=?,jabatan=?,foto=?,deskripsi=? WHERE id=? AND deleted_at IS NULL'); mysqli_stmt_bind_param($update,'ssssi',$nama,$jabatan,$foto,$deskripsi,$id); mysqli_stmt_execute($update); $_SESSION['success']='Data pengurus berhasil diperbarui.'; header('Location:index.php'); exit;}
  }
 }
 $page_title='Edit Pengurus';$active_menu='pengurus';$admin_base='..';include '../includes/header.php';

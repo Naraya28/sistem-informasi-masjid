@@ -1,15 +1,16 @@
 <?php
 require '../auth.php';
 require '../../config/koneksi.php';
+require_once '../../includes/csrf.php';
 
 $search = trim($_GET['search'] ?? '');
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $limit = 10;
 $offset = ($page - 1) * $limit;
-$where = '';
+$where = 'WHERE deleted_at IS NULL';
 if ($search !== '') {
     $escaped = mysqli_real_escape_string($conn, $search);
-    $where = "WHERE nama LIKE '%$escaped%' OR email LIKE '%$escaped%' OR subjek LIKE '%$escaped%' OR pesan LIKE '%$escaped%'";
+    $where .= " AND (nama LIKE '%$escaped%' OR email LIKE '%$escaped%' OR subjek LIKE '%$escaped%' OR pesan LIKE '%$escaped%')";
 }
 $total = (int) (mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) total FROM pesan $where"))['total'] ?? 0);
 $totalPages = max(1, (int) ceil($total / $limit));
@@ -30,7 +31,7 @@ include '../includes/header.php';
         <td><strong><?= htmlspecialchars($row['nama'], ENT_QUOTES, 'UTF-8') ?></strong></td>
         <td><?= htmlspecialchars($row['email'] ?: '-', ENT_QUOTES, 'UTF-8') ?><br><?= htmlspecialchars($row['no_hp'] ?: '-', ENT_QUOTES, 'UTF-8') ?></td>
         <td><strong><?= htmlspecialchars($row['subjek'] ?: 'Tanpa subjek', ENT_QUOTES, 'UTF-8') ?></strong><br><?= nl2br(htmlspecialchars($row['pesan'], ENT_QUOTES, 'UTF-8')) ?></td>
-        <td><a class="btn-hapus" href="hapus.php?id=<?= (int) $row['id'] ?>" onclick="return confirm('Hapus pesan ini?')">Hapus</a></td>
+        <td><form method="POST" action="hapus.php" class="inline-action" onsubmit="return confirm('Data akan dipindahkan ke Tempat Sampah dan masih dapat dipulihkan.')"><?= csrf_field() ?><input type="hidden" name="id" value="<?= (int) $row['id'] ?>"><button class="btn-hapus" type="submit">Hapus</button></form></td>
     </tr><?php endwhile; ?></tbody></table></div>
     <?php if ($total > 0): ?><div class="pagination"><?php for ($i = 1; $i <= $totalPages; $i++): ?><a class="<?= $i === $page ? 'active-page' : '' ?>" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a><?php endfor; ?></div><?php endif; ?>
 </div>

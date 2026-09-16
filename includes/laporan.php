@@ -109,7 +109,7 @@ function laporan_list(mysqli $conn, ?int $owner, array $input, int $limit = 10):
     if (!in_array($jenis, laporan_jenis(), true)) {
         $jenis = '';
     }
-    $conditions = ['1=1'];
+    $conditions = ['l.deleted_at IS NULL'];
     $types = '';
     $params = [];
     if ($owner !== null) {
@@ -141,7 +141,7 @@ function laporan_list(mysqli $conn, ?int $owner, array $input, int $limit = 10):
 
 function laporan_summary(mysqli $conn, int $owner): array
 {
-    $row = laporan_rows($conn, "SELECT COUNT(*) total, SUM(tanggal >= DATE_FORMAT(CURDATE(), '%Y-%m-01')) bulan, SUM(YEAR(tanggal)=YEAR(CURDATE())) tahun, SUM(file IS NOT NULL AND file <> '') lampiran FROM laporan WHERE created_by=?", 'i', [$owner])[0];
+    $row = laporan_rows($conn, "SELECT COUNT(*) total, SUM(tanggal >= DATE_FORMAT(CURDATE(), '%Y-%m-01')) bulan, SUM(YEAR(tanggal)=YEAR(CURDATE())) tahun, SUM(file IS NOT NULL AND file <> '') lampiran FROM laporan WHERE created_by=? AND deleted_at IS NULL", 'i', [$owner])[0];
     return $row ?: ['total' => 0, 'bulan' => 0, 'tahun' => 0, 'lampiran' => 0];
 }
 

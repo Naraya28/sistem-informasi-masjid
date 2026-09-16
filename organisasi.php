@@ -4,7 +4,8 @@ include 'includes/header.php';
 include 'includes/navbar.php';
 
 $data = mysqli_query($conn, 
-"SELECT * FROM pengurus 
+"SELECT * FROM pengurus
+    WHERE deleted_at IS NULL
 
     ORDER BY FIELD(
         jabatan,

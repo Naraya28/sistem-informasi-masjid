@@ -1,7 +1,7 @@
 <?php
 require 'config/koneksi.php';
 $page_title = 'Artikel Masjid';
-$data = mysqli_query($conn, "SELECT a.*, k.nama_kategori FROM artikel a LEFT JOIN kategori_kegiatan k ON a.id_kategori = k.id_kategori ORDER BY a.tanggal DESC");
+$data = mysqli_query($conn, "SELECT a.*, k.nama_kategori FROM artikel a LEFT JOIN kategori_kegiatan k ON a.id_kategori = k.id_kategori WHERE a.deleted_at IS NULL ORDER BY a.tanggal DESC");
 include 'includes/header.php';
 include 'includes/navbar.php';
 ?>

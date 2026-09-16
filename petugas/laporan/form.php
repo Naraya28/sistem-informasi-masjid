@@ -10,7 +10,7 @@ $oldFile = '';
 $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT) ?: 0;
 try {
     if ($editing) {
-        $rows = laporan_rows($conn, 'SELECT id,judul_laporan,jenis_laporan,tanggal,deskripsi,file FROM laporan WHERE id=? AND created_by=?', 'ii', [$id, $owner]);
+        $rows = laporan_rows($conn, 'SELECT id,judul_laporan,jenis_laporan,tanggal,deskripsi,file FROM laporan WHERE id=? AND created_by=? AND deleted_at IS NULL', 'ii', [$id, $owner]);
         if (!$rows) { http_response_code(404); exit('Laporan tidak ditemukan atau tidak dapat diakses.'); }
         $data = $rows[0];
         $values = ['judul' => $data['judul_laporan'], 'jenis' => $data['jenis_laporan'], 'tanggal' => $data['tanggal'], 'deskripsi' => $data['deskripsi'] ?? ''];
@@ -35,7 +35,7 @@ try {
             if (!$errors) {
                 if ($editing) {
                     $file = $newFile !== '' ? $newFile : $oldFile;
-                    $stmt = laporan_query($conn, 'UPDATE laporan SET judul_laporan=?,jenis_laporan=?,tanggal=?,deskripsi=?,file=? WHERE id=? AND created_by=?', 'sssssii', [$values['judul'], $values['jenis'], $values['tanggal'], $values['deskripsi'], $file, $id, $owner]);
+                    $stmt = laporan_query($conn, 'UPDATE laporan SET judul_laporan=?,jenis_laporan=?,tanggal=?,deskripsi=?,file=? WHERE id=? AND created_by=? AND deleted_at IS NULL', 'sssssii', [$values['judul'], $values['jenis'], $values['tanggal'], $values['deskripsi'], $file, $id, $owner]);
                 } else {
                     $stmt = laporan_query($conn, 'INSERT INTO laporan (judul_laporan,jenis_laporan,tanggal,deskripsi,file,created_by) VALUES (?,?,?,?,?,?)', 'sssssi', [$values['judul'], $values['jenis'], $values['tanggal'], $values['deskripsi'], $newFile, $owner]);
                 }

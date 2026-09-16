@@ -8,7 +8,7 @@ try {
     $request = delete_approval_rows($conn, 'SELECT entity_type,status FROM delete_requests WHERE id=? LIMIT 1', 'i', [$requestId])[0] ?? null;
     if (!$request || $request['entity_type'] !== 'keuangan') { throw new RuntimeException('Permintaan keuangan tidak ditemukan.'); }
     delete_approval_review($conn, $requestId, (int) $_SESSION['user_id'], true);
-    $_SESSION['success'] = 'Permintaan disetujui dan data keuangan berhasil dihapus.';
+    $_SESSION['success'] = 'Permintaan disetujui dan data keuangan dipindahkan ke Tempat Sampah.';
 } catch (RuntimeException $error) { $_SESSION['error'] = $error->getMessage(); }
 header('Location: ' . $redirect, true, 303);
 exit;

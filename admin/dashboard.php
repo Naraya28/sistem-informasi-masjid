@@ -21,17 +21,17 @@ function scalarQuery(mysqli $conn, string $sql): int {
     return (int) ($row[0] ?? 0);
 }
 
-$totalPengurus = scalarQuery($conn, 'SELECT COUNT(*) FROM pengurus');
-$totalArtikel = scalarQuery($conn, 'SELECT COUNT(*) FROM artikel');
-$totalLaporan = scalarQuery($conn, 'SELECT COUNT(*) FROM laporan');
-$totalPesan = scalarQuery($conn, 'SELECT COUNT(*) FROM pesan');
-$pemasukan = scalarQuery($conn, "SELECT COALESCE(SUM(jumlah), 0) FROM keuangan WHERE jenis='pemasukan'");
-$pengeluaran = scalarQuery($conn, "SELECT COALESCE(SUM(jumlah), 0) FROM keuangan WHERE jenis='pengeluaran'");
+$totalPengurus = scalarQuery($conn, 'SELECT COUNT(*) FROM pengurus WHERE deleted_at IS NULL');
+$totalArtikel = scalarQuery($conn, 'SELECT COUNT(*) FROM artikel WHERE deleted_at IS NULL');
+$totalLaporan = scalarQuery($conn, 'SELECT COUNT(*) FROM laporan WHERE deleted_at IS NULL');
+$totalPesan = scalarQuery($conn, 'SELECT COUNT(*) FROM pesan WHERE deleted_at IS NULL');
+$pemasukan = scalarQuery($conn, "SELECT COALESCE(SUM(jumlah), 0) FROM keuangan WHERE jenis='pemasukan' AND deleted_at IS NULL");
+$pengeluaran = scalarQuery($conn, "SELECT COALESCE(SUM(jumlah), 0) FROM keuangan WHERE jenis='pengeluaran' AND deleted_at IS NULL");
 $saldo = $pemasukan - $pengeluaran;
 
-$artikelTerbaru = mysqli_query($conn, 'SELECT id_artikel, judul, tanggal FROM artikel ORDER BY tanggal DESC, id_artikel DESC LIMIT 3');
-$laporanTerbaru = mysqli_query($conn, 'SELECT id, judul_laporan, jenis_laporan, tanggal FROM laporan ORDER BY tanggal DESC, id DESC LIMIT 3');
-$pesanTerbaru = mysqli_query($conn, 'SELECT nama, subjek, pesan, tanggal FROM pesan ORDER BY tanggal DESC, id DESC LIMIT 3');
+$artikelTerbaru = mysqli_query($conn, 'SELECT id_artikel, judul, tanggal FROM artikel WHERE deleted_at IS NULL ORDER BY tanggal DESC, id_artikel DESC LIMIT 3');
+$laporanTerbaru = mysqli_query($conn, 'SELECT id, judul_laporan, jenis_laporan, tanggal FROM laporan WHERE deleted_at IS NULL ORDER BY tanggal DESC, id DESC LIMIT 3');
+$pesanTerbaru = mysqli_query($conn, 'SELECT nama, subjek, pesan, tanggal FROM pesan WHERE deleted_at IS NULL ORDER BY tanggal DESC, id DESC LIMIT 3');
 $statusSaldo = $saldo >= 0 ? 'Sehat' : 'Perlu perhatian';
 
 $page_title = 'Dashboard Admin';

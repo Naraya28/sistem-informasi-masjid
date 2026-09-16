@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/csrf.php';
+require_once __DIR__ . '/recycle_bin.php';
 
 function delete_approval_query(mysqli $conn, string $sql, string $types = '', array $params = []): mysqli_stmt
 {
@@ -74,7 +75,7 @@ function delete_approval_create(mysqli $conn, string $entity, int $recordId, int
     }
     $targetTable = $entity === 'keuangan' ? 'keuangan' : 'laporan';
     $targetId = $entity === 'keuangan' ? 'id_keuangan' : 'id';
-    $target = delete_approval_rows($conn, "SELECT $targetId FROM $targetTable WHERE $targetId=? AND created_by=? LIMIT 1", 'ii', [$recordId, $requester]);
+    $target = delete_approval_rows($conn, "SELECT $targetId FROM $targetTable WHERE $targetId=? AND created_by=? AND deleted_at IS NULL LIMIT 1", 'ii', [$recordId, $requester]);
     if (!$target) {
         throw new RuntimeException('Data tidak ditemukan atau bukan milik Anda.');
     }
@@ -95,7 +96,7 @@ function delete_approval_target(mysqli $conn, string $entity, int $recordId, int
     $table = $entity === 'keuangan' ? 'keuangan' : 'laporan';
     $idColumn = $entity === 'keuangan' ? 'id_keuangan' : 'id';
     $fields = $entity === 'keuangan' ? "$idColumn AS target_id,tanggal,jenis,kategori,jumlah,keterangan,created_by" : "$idColumn AS target_id,tanggal,jenis_laporan AS jenis,judul_laporan AS judul,deskripsi,file,created_by";
-    $sql = "SELECT $fields FROM $table WHERE $idColumn=? AND created_by=? LIMIT 1" . ($lock ? ' FOR UPDATE' : '');
+    $sql = "SELECT $fields FROM $table WHERE $idColumn=? AND created_by=? AND deleted_at IS NULL LIMIT 1" . ($lock ? ' FOR UPDATE' : '');
     $rows = delete_approval_rows($conn, $sql, 'ii', [$recordId, $requester]);
     return $rows[0] ?? null;
 }
@@ -116,17 +117,19 @@ function delete_approval_review(mysqli $conn, int $requestId, int $adminId, bool
         if (!$target) {
             throw new RuntimeException('Data target tidak ditemukan atau kepemilikannya berubah.');
         }
-        $attachment = '';
+        $trashItemId = null;
         if ($approve) {
-            $table = $request['entity_type'] === 'keuangan' ? 'keuangan' : 'laporan';
-            $idColumn = $request['entity_type'] === 'keuangan' ? 'id_keuangan' : 'id';
-            $delete = delete_approval_query($conn, "DELETE FROM $table WHERE $idColumn=? AND created_by=?", 'ii', [(int) $request['record_id'], (int) $request['requested_by']]);
-            $affected = mysqli_stmt_affected_rows($delete);
-            mysqli_stmt_close($delete);
-            if ($affected !== 1) {
-                throw new RuntimeException('Data target tidak dapat dihapus.');
-            }
-            $attachment = (string) ($target['file'] ?? '');
+            $trash = recycle_bin_soft_delete(
+                $conn,
+                $request['entity_type'],
+                (int) $request['record_id'],
+                $adminId,
+                'approval',
+                $requestId,
+                false,
+                (int) $request['requested_by']
+            );
+            $trashItemId = (int) $trash['item_id'];
         }
         $status = $approve ? 'approved' : 'rejected';
         $update = delete_approval_query($conn, 'UPDATE delete_requests SET status=?,reviewed_by=?,reviewed_at=NOW() WHERE id=? AND status=\'pending\'', 'sii', [$status, $adminId, $requestId]);
@@ -136,7 +139,7 @@ function delete_approval_review(mysqli $conn, int $requestId, int $adminId, bool
         }
         mysqli_stmt_close($update);
         mysqli_commit($conn);
-        return ['entity' => $request['entity_type'], 'attachment' => $attachment];
+        return ['entity' => $request['entity_type'], 'trash_item_id' => $trashItemId];
     } catch (Throwable $error) {
         mysqli_rollback($conn);
         if ($error instanceof RuntimeException) {
@@ -144,18 +147,4 @@ function delete_approval_review(mysqli $conn, int $requestId, int $adminId, bool
         }
         throw new RuntimeException('Permintaan penghapusan belum dapat diproses.');
     }
-}
-
-function delete_approval_attachment_path(string $file): ?string
-{
-    if ($file === '' || basename($file) !== $file) {
-        return null;
-    }
-    $directory = realpath(dirname(__DIR__) . '/uploads/laporan');
-    $path = realpath($directory . DIRECTORY_SEPARATOR . $file);
-    if ($directory === false || $path === false || !is_file($path)) {
-        return null;
-    }
-    $prefix = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-    return strncmp($path, $prefix, strlen($prefix)) === 0 ? $path : null;
 }
