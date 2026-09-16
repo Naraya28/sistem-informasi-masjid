@@ -5,7 +5,7 @@ $listJabatan = ['Ketua', 'Wakil Ketua', 'Sekretaris', 'Bendahara', 'Humas', 'Kea
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = trim($_POST['nama'] ?? ''); $jabatan = $_POST['jabatan'] ?? ''; $deskripsi = trim($_POST['deskripsi'] ?? '');
     if ($nama === '' || !in_array($jabatan, $listJabatan, true)) { $_SESSION['error']='Data pengurus belum lengkap.'; }
-    elseif (in_array($jabatan, ['Ketua','Wakil Ketua'], true) && mysqli_num_rows(mysqli_query($conn, "SELECT id FROM pengurus WHERE jabatan='".mysqli_real_escape_string($conn,$jabatan)."'"))>0) { $_SESSION['error']="Jabatan $jabatan sudah terisi."; }
+    elseif (in_array($jabatan, ['Ketua','Wakil Ketua'], true) && mysqli_num_rows(mysqli_query($conn, "SELECT id FROM pengurus WHERE jabatan='".mysqli_real_escape_string($conn,$jabatan)."' AND deleted_at IS NULL"))>0) { $_SESSION['error']="Jabatan $jabatan sudah terisi."; }
     else {
         $foto=''; $file=$_FILES['foto']??null; $allowed=['jpg','jpeg','png','webp'];
         if (!$file || $file['error'] !== UPLOAD_ERR_OK) {

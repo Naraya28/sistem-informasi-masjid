@@ -71,7 +71,7 @@ function keuangan_validate(array $input): array
 
 function keuangan_summary(mysqli $conn, ?int $owner): array
 {
-    $where = $owner === null ? '' : ' WHERE created_by = ?';
+    $where = $owner === null ? ' WHERE deleted_at IS NULL' : ' WHERE created_by = ? AND deleted_at IS NULL';
     return keuangan_rows($conn, "SELECT COUNT(*) total, COALESCE(SUM(CASE WHEN jenis='pemasukan' THEN jumlah ELSE 0 END),0) pemasukan, COALESCE(SUM(CASE WHEN jenis='pengeluaran' THEN jumlah ELSE 0 END),0) pengeluaran FROM keuangan" . $where, $owner === null ? '' : 'i', $owner === null ? [] : [$owner])[0];
 }
 
@@ -82,7 +82,7 @@ function keuangan_list(mysqli $conn, ?int $owner, array $input, int $limit = 10)
     if (!in_array($jenis, ['pemasukan', 'pengeluaran'], true)) {
         $jenis = '';
     }
-    $conditions = ['1=1'];
+    $conditions = ['k.deleted_at IS NULL'];
     $types = '';
     $params = [];
     if ($owner !== null) {

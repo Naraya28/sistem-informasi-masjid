@@ -1,7 +1,7 @@
 <?php
 require 'config/koneksi.php';
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$stmt = mysqli_prepare($conn, 'SELECT a.*, k.nama_kategori FROM artikel a LEFT JOIN kategori_kegiatan k ON a.id_kategori = k.id_kategori WHERE a.id_artikel = ?');
+$stmt = mysqli_prepare($conn, 'SELECT a.*, k.nama_kategori FROM artikel a LEFT JOIN kategori_kegiatan k ON a.id_kategori = k.id_kategori WHERE a.id_artikel = ? AND a.deleted_at IS NULL');
 mysqli_stmt_bind_param($stmt, 'i', $id);
 mysqli_stmt_execute($stmt);
 $data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));

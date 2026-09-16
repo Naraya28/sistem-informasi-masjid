@@ -1,14 +1,17 @@
 <?php
 require_once __DIR__ . '/../../includes/delete_approval.php';
+require_once __DIR__ . '/../../includes/recycle_bin.php';
 $admin_base = $admin_base ?? '..';
 $active_menu = $active_menu ?? '';
 $adminName = htmlspecialchars($_SESSION['nama_lengkap'] ?? 'Pengguna', ENT_QUOTES, 'UTF-8');
 try {
     $pendingFinanceCount = delete_approval_pending_count_for($conn, 'keuangan');
     $pendingReportCount = delete_approval_pending_count_for($conn, 'laporan');
+    $recycleBinCount = recycle_bin_count_active($conn);
 } catch (Throwable $error) {
     $pendingFinanceCount = 0;
     $pendingReportCount = 0;
+    $recycleBinCount = 0;
 }
 $menus = [
     'dashboard' => ['Dashboard', 'fa-home', $admin_base . '/dashboard.php'],
@@ -19,6 +22,7 @@ $menus = [
     'pesan' => ['Pesan', 'fa-envelope', $admin_base . '/pesan/index.php'],
     'profil' => ['Profil Masjid', 'fa-id-card', $admin_base . '/profil/index.php'],
     'manajemen' => ['Manajemen', 'fa-book', $admin_base . '/manajemen/index.php'],
+    'tempat_sampah' => ['Tempat Sampah', 'fa-trash-can-arrow-up', $admin_base . '/tempat_sampah/index.php'],
 ];
 ?>
 <aside class="sidebar" id="adminSidebar">
@@ -31,7 +35,7 @@ $menus = [
         <?php foreach ($menus as $key => [$label, $icon, $url]): ?>
             <li class="<?= $active_menu === $key ? 'active' : '' ?>">
                 <a href="<?= htmlspecialchars($url, ENT_QUOTES, 'UTF-8') ?>">
-                    <i class="fa <?= $icon ?>"></i> <?= $label ?><?php if ($key === 'keuangan' && $pendingFinanceCount > 0): ?> <span class="nav-count"><?= $pendingFinanceCount ?></span><?php elseif ($key === 'laporan' && $pendingReportCount > 0): ?> <span class="nav-count"><?= $pendingReportCount ?></span><?php endif; ?>
+                    <i class="fa <?= $icon ?>"></i> <?= $label ?><?php if ($key === 'keuangan' && $pendingFinanceCount > 0): ?> <span class="nav-count"><?= $pendingFinanceCount ?></span><?php elseif ($key === 'laporan' && $pendingReportCount > 0): ?> <span class="nav-count"><?= $pendingReportCount ?></span><?php elseif ($key === 'tempat_sampah' && $recycleBinCount > 0): ?> <span class="nav-count"><?= $recycleBinCount ?></span><?php endif; ?>
                 </a>
             </li>
         <?php endforeach; ?>

@@ -2,7 +2,7 @@
 require __DIR__ . '/../auth.php';
 require_once __DIR__ . '/../../includes/laporan.php';
 $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT) ?: 0;
-$rows = laporan_rows($conn, 'SELECT l.*, u.nama_lengkap AS creator FROM laporan l LEFT JOIN users u ON u.id=l.created_by WHERE l.id=?', 'i', [$id]);
+$rows = laporan_rows($conn, 'SELECT l.*, u.nama_lengkap AS creator FROM laporan l LEFT JOIN users u ON u.id=l.created_by WHERE l.id=? AND l.deleted_at IS NULL', 'i', [$id]);
 if (!$rows) { http_response_code(404); exit('Laporan tidak ditemukan.'); }
 $data = $rows[0];
 $page_title = 'Detail Laporan';

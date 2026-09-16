@@ -9,7 +9,7 @@ $values = ['tanggal'=>date('Y-m-d'),'jenis'=>'pemasukan','kategori'=>'','jumlah'
 $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT) ?: 0;
 try {
     if ($editing) {
-        $rows = keuangan_rows($conn, 'SELECT tanggal,jenis,kategori,jumlah,keterangan FROM keuangan WHERE id_keuangan=? AND created_by=?', 'ii', [$id,$owner]);
+        $rows = keuangan_rows($conn, 'SELECT tanggal,jenis,kategori,jumlah,keterangan FROM keuangan WHERE id_keuangan=? AND created_by=? AND deleted_at IS NULL', 'ii', [$id,$owner]);
         if (!$rows) { http_response_code(404); exit('Transaksi tidak ditemukan atau tidak dapat diakses.'); }
         $values = $rows[0];
     }
@@ -22,7 +22,7 @@ try {
             if (!$errors) {
                 $params = [$values['tanggal'],$values['jenis'],$values['kategori'],(int)$values['jumlah'],$values['keterangan']];
                 if ($editing) {
-                    $stmt = keuangan_query($conn, 'UPDATE keuangan SET tanggal=?,jenis=?,kategori=?,jumlah=?,keterangan=? WHERE id_keuangan=? AND created_by=?', 'sssisii', array_merge($params,[$id,$owner]));
+                    $stmt = keuangan_query($conn, 'UPDATE keuangan SET tanggal=?,jenis=?,kategori=?,jumlah=?,keterangan=? WHERE id_keuangan=? AND created_by=? AND deleted_at IS NULL', 'sssisii', array_merge($params,[$id,$owner]));
                 } else {
                     $stmt = keuangan_query($conn, 'INSERT INTO keuangan (tanggal,jenis,kategori,jumlah,keterangan,created_by) VALUES (?,?,?,?,?,?)', 'sssisi', array_merge($params,[$owner]));
                 }

@@ -10,6 +10,7 @@ $admin_base = $admin_base ?? '..';
     <title><?= htmlspecialchars($page_title, ENT_QUOTES, 'UTF-8') ?></title>
     <link rel="stylesheet" href="<?= $admin_base ?>/../assets/css/admin.css?v=<?= filemtime(__DIR__ . '/../../assets/css/admin.css') ?>">
     <link rel="stylesheet" href="<?= $admin_base ?>/../assets/css/delete-approval.css?v=<?= filemtime(__DIR__ . '/../../assets/css/delete-approval.css') ?>">
+    <link rel="stylesheet" href="<?= $admin_base ?>/../assets/css/recycle-bin.css?v=<?= filemtime(__DIR__ . '/../../assets/css/recycle-bin.css') ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="admin-shell">
